@@ -3,123 +3,387 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Task Rewards</title>
+<title>Task Rewards | Earn Pocket Money</title>
 <link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#1F4E78" />
+<meta name="theme-color" content="#0A0E1A" />
 <link rel="apple-touch-icon" href="icon-192.png" />
+
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
   :root {
-    --primary: #1F4E78;
-    --primary-light: #2E75B6;
-    --bg: #F4F6F8;
-    --card-bg: #FFFFFF;
-    --text: #1A1A1A;
-    --muted: #6B7280;
-    --success: #1E8E3E;
-    --border: #E2E6EA;
-    box-sizing: border-box;
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
+    --bg-dark: #080C16;
+    --hero-bg: radial-gradient(circle at 50% 0%, #172A54 0%, #080C16 75%);
+    --primary-blue: #2563EB;
+    --primary-glow: #3B82F6;
+    --accent-cyan: #06B6D4;
+    --accent-emerald: #10B981;
+    --card-bg: rgba(16, 24, 40, 0.72);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-glow: 0 10px 30px -10px rgba(37, 99, 235, 0.18);
+    --text-primary: #F8FAFC;
+    --text-muted: #94A3B8;
+    --text-sub: #64748B;
   }
-  * { box-sizing: border-box; }
-  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  
   body {
     margin: 0;
-    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding-bottom: 50px;
+    background-image: 
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(37, 99, 235, 0.28), transparent),
+      radial-gradient(circle at 100% 40%, rgba(6, 182, 212, 0.06), transparent);
+    background-repeat: no-repeat;
   }
+
+  /* Header Section */
   header {
-    background: var(--primary);
-    color: #fff;
-    padding: 18px 16px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    padding-top: calc(18px + env(safe-area-inset-top, 0px));
+    text-align: center;
+    padding: 32px 18px 20px;
+    max-width: 540px;
+    margin: 0 auto;
   }
-  header h1 { margin: 0; font-size: 1.15rem; }
-  header p { margin: 2px 0 0; font-size: 0.8rem; opacity: 0.85; }
-  main { max-width: 520px; margin: 0 auto; padding: 16px; padding-bottom: 48px; }
-  .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+
+  .pill-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(37, 99, 235, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.35);
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #60A5FA;
+    margin-bottom: 14px;
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(180deg, #FFFFFF 20%, #94A3B8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  header p {
+    margin: 8px 0 0;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+
+  /* Trust Indicators Grid (Point 3) */
+  .trust-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 500px;
+    margin: 18px auto 22px;
+    padding: 0 16px;
+  }
+
+  .trust-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 10px 8px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+  }
+
+  .trust-icon { font-size: 1.1rem; margin-bottom: 3px; display: block; }
+  .trust-title { font-size: 0.72rem; font-weight: 700; color: #E2E8F0; }
+  .trust-desc { font-size: 0.62rem; color: var(--text-sub); }
+
+  /* Main Container */
+  main {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* Floating Segmented Tabs */
+  .tabs-wrapper {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 4px;
+    border-radius: 14px;
+    display: flex;
+    gap: 6px;
+    margin-bottom: 22px;
+    backdrop-filter: blur(12px);
+  }
+
   .tab-btn {
-    flex: 1; padding: 10px; border: none; border-radius: 10px;
-    background: var(--card-bg); color: var(--primary); font-weight: 600;
-    border: 1px solid var(--border); cursor: pointer; font-size: 0.9rem;
+    flex: 1;
+    padding: 11px 14px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
   }
-  .tab-btn.active { background: var(--primary); color: #fff; }
+
+  .tab-btn.active {
+    background: linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%);
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+  }
+
   section { display: none; }
   section.active { display: block; }
+
+  /* Task Card Aesthetics */
   .card {
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px; margin-bottom: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: var(--card-glow);
+    backdrop-filter: blur(16px);
+    transition: transform 0.2s ease, border-color 0.2s ease;
   }
-  .card h3 { margin: 0 0 4px; font-size: 1rem; }
-  .card .platform { font-size: 0.75rem; color: var(--muted); margin-bottom: 8px; }
-  .payout { font-weight: 700; color: var(--success); font-size: 1.05rem; }
-  .steps { font-size: 0.85rem; color: var(--muted); margin: 8px 0; white-space: pre-line; }
+
+  .card:active {
+    transform: scale(0.985);
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .card h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #F8FAFC;
+    letter-spacing: -0.01em;
+  }
+
+  .card .platform {
+    font-size: 0.76rem;
+    color: #60A5FA;
+    font-weight: 600;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .payout-chip {
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #34D399;
+    font-weight: 800;
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+  }
+
+  .steps-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-size: 0.82rem;
+    color: #CBD5E1;
+    line-height: 1.5;
+    margin: 12px 0 16px;
+    white-space: pre-line;
+  }
+
+  /* Buttons */
   .btn {
-    display: inline-block; background: var(--primary-light); color: #fff;
-    border: none; border-radius: 8px; padding: 10px 14px; font-size: 0.85rem;
-    font-weight: 600; cursor: pointer; text-decoration: none; margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 13px 18px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 18px rgba(37, 99, 235, 0.35);
+    transition: all 0.2s ease;
   }
-  .btn.secondary { background: var(--primary); width: 100%; text-align: center; }
-  form { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-  label { display: block; font-size: 0.8rem; font-weight: 600; margin: 12px 0 4px; }
-  input, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; }
-  .status-msg { margin-top: 12px; padding: 10px; border-radius: 8px; font-size: 0.85rem; display: none; }
-  .status-msg.ok { background: #E6F4EA; color: var(--success); display: block; }
-  .status-msg.err { background: #FCE8E6; color: #C5221F; display: block; }
-  .muted-note { color: var(--muted); font-size: 0.75rem; text-align: center; margin-top: 18px; }
-  .loading { text-align: center; color: var(--muted); padding: 24px 0; font-size: 0.9rem; }
+
+  .btn:hover {
+    box-shadow: 0 6px 22px rgba(37, 99, 235, 0.5);
+    filter: brightness(1.08);
+  }
+
+  /* Form Design */
+  form {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 22px 18px;
+    box-shadow: var(--card-glow);
+    backdrop-filter: blur(16px);
+  }
+
+  label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #CBD5E1;
+    margin: 14px 0 6px;
+    letter-spacing: 0.2px;
+  }
+  label:first-of-type { margin-top: 0; }
+
+  input, select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 11px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 23, 42, 0.85);
+    color: #F8FAFC;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  input:focus, select:focus {
+    border-color: var(--primary-glow);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+  }
+
+  input[type="file"] {
+    padding: 9px 12px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  .status-msg {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: none;
+    text-align: center;
+  }
+  .status-msg.ok { background: rgba(16, 185, 129, 0.15); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.3); display: block; }
+  .status-msg.err { background: rgba(239, 68, 68, 0.15); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.3); display: block; }
+
+  .muted-note {
+    color: var(--text-sub);
+    font-size: 0.74rem;
+    text-align: center;
+    margin-top: 22px;
+    line-height: 1.45;
+  }
+
+  .loading {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 40px 0;
+    font-size: 0.92rem;
+  }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Task Rewards</h1>
-  <p>Complete a task, submit proof, get paid</p>
+  <div class="pill-badge">✨ Instant Student Payouts</div>
+  <h1>Earn Daily Cashback</h1>
+  <p>Complete simple digital tasks, submit proof, and get money credited directly to your UPI ID.</p>
 </header>
 
+<!-- Trust Metric Badges (Point 3) -->
+<div class="trust-strip">
+  <div class="trust-card">
+    <span class="trust-icon">🔒</span>
+    <div class="trust-title">100% Free</div>
+    <div class="trust-desc">Zero Joining Fee</div>
+  </div>
+  <div class="trust-card">
+    <span class="trust-icon">⚡</span>
+    <div class="trust-title">UPI Payout</div>
+    <div class="trust-desc">Direct to Bank</div>
+  </div>
+  <div class="trust-card">
+    <span class="trust-icon">🛡️</span>
+    <div class="trust-title">Verified</div>
+    <div class="trust-desc">Official Brands</div>
+  </div>
+</div>
+
 <main>
-  <div class="tabs">
-    <button class="tab-btn active" data-tab="tasks">Tasks</button>
-    <button class="tab-btn" data-tab="submit">Submit Proof</button>
+  <!-- Segmented Tabs -->
+  <div class="tabs-wrapper">
+    <button class="tab-btn active" data-tab="tasks">🔥 Available Tasks</button>
+    <button class="tab-btn" data-tab="submit">📤 Submit Proof</button>
   </div>
 
+  <!-- Tasks Feed -->
   <section id="tasks" class="active">
-    <div id="taskList" class="loading">Loading tasks…</div>
+    <div id="taskList" class="loading">Loading available tasks…</div>
   </section>
 
+  <!-- Submit Proof Form -->
   <section id="submit">
     <form id="submitForm">
-      <label>Your Name</label>
-      <input type="text" id="userName" required />
+      <label>Full Name</label>
+      <input type="text" id="userName" placeholder="e.g. Rahul Sharma" required />
 
-      <label>Mobile Number</label>
-      <input type="tel" id="mobile" required pattern="[0-9]{10}" placeholder="10-digit number" />
+      <label>Mobile Number (Registered)</label>
+      <input type="tel" id="mobile" required pattern="[0-9]{10}" placeholder="10-digit phone number" />
 
-      <label>Select Task</label>
+      <label>Select Completed Task</label>
       <select id="taskSelect" required>
         <option value="">Loading tasks…</option>
       </select>
 
-      <label>Screenshot Proof</label>
+      <label>Upload Screenshot Proof</label>
       <input type="file" id="screenshot" accept="image/*" required />
 
-      <label>Your UPI ID</label>
-      <input type="text" id="upiId" required placeholder="yourname@upi" />
+      <label>Your UPI ID (For Payment)</label>
+      <input type="text" id="upiId" required placeholder="example@okhdfcbank" />
 
-      <button type="submit" class="btn secondary">Submit</button>
+      <div style="margin-top: 18px;">
+        <button type="submit" class="btn">Submit for Verification →</button>
+      </div>
       <div id="statusMsg" class="status-msg"></div>
     </form>
   </section>
 
-  <p class="muted-note">Payouts are sent manually after verification. Usually within 2-3 days of approval.</p>
+  <p class="muted-note">Payouts are manually verified against brand dashboards and sent directly to your UPI within 24–48 hours.</p>
 </main>
 
 <script>
-  // ⚠️ PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
+  // Google Apps Script Web App URL
   var API_URL = "https://script.google.com/macros/s/AKfycbw0gwZSvTQhekWLSngSM7yVdcsB20BuK6dczH1JxXf7fie08zWvmkT6tSv68rtGKF4obw/exec";
 
   var tasksCache = [];
@@ -154,11 +418,15 @@
       var card = document.createElement("div");
       card.className = "card";
       card.innerHTML =
-        "<h3>" + escapeHtml(t.offerName) + "</h3>" +
-        "<div class='platform'>" + escapeHtml(t.platform) + "</div>" +
-        "<div class='payout'>Earn ₹" + t.payoutToUser + "</div>" +
-        "<div class='steps'>" + escapeHtml(t.steps) + "</div>" +
-        "<a class='btn' href='" + t.referralLink + "' target='_blank' rel='noopener'>Open Link</a>";
+        "<div class='card-top'>" +
+          "<div>" +
+            "<h3>" + escapeHtml(t.offerName) + "</h3>" +
+            "<div class='platform'>" + escapeHtml(t.platform) + "</div>" +
+          "</div>" +
+          "<div class='payout-chip'>Earn ₹" + t.payoutToUser + "</div>" +
+        "</div>" +
+        "<div class='steps-box'>" + escapeHtml(t.steps) + "</div>" +
+        "<a class='btn' href='" + t.referralLink + "' target='_blank' rel='noopener'>Start Task & Earn ↗</a>";
       list.appendChild(card);
     });
   }
@@ -188,7 +456,7 @@
 
     var statusEl = document.getElementById("statusMsg");
     statusEl.className = "status-msg";
-    statusEl.textContent = "Uploading…";
+    statusEl.textContent = "Uploading proof securely…";
     statusEl.style.display = "block";
 
     var reader = new FileReader();
@@ -206,14 +474,14 @@
 
       fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" }, // avoids CORS preflight on Apps Script
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify(payload)
       })
         .then(function (r) { return r.json(); })
         .then(function (res) {
           if (res.ok) {
             statusEl.className = "status-msg ok";
-            statusEl.textContent = "Submitted! Reference: " + res.submissionId + ". You'll be paid after verification.";
+            statusEl.textContent = "Submitted successfully! Ref ID: " + res.submissionId + ". You will receive UPI payout once verified.";
             document.getElementById("submitForm").reset();
           } else {
             statusEl.className = "status-msg err";
