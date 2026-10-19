@@ -717,7 +717,69 @@
   function openTaskGuide(index) {
     var t = tasksCache[index];
     if (!t) return;
+// 1. Modal open aur click tracking event binding
+  function openTaskGuide(index) {
+    var t = tasksCache[index];
+    if (!t) return;
 
+    document.getElementById("modalTitle").textContent = t.offerName;
+    document.getElementById("modalPlatform").textContent = t.platform;
+    document.getElementById("modalSteps").textContent = cleanSteps(t.steps);
+
+    // Click tracking bind on "Proceed to Task" button
+    var btn = document.getElementById("modalAffiliateLink");
+    btn.onclick = function(e) {
+      trackAndRedirect(e, t.referralLink, t.taskId);
+    };
+
+    var videoBox = document.getElementById("modalVideoBox");
+    var iframe = document.getElementById("videoIframe");
+    var ytLink = null;
+
+    if (t.steps && (t.steps.includes("youtu.be") || t.steps.includes("youtube.com"))) {
+      var match = t.steps.match(/https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/[^\s\}]+/);
+      if (match) ytLink = match[0];
+    }
+
+    if (ytLink) {
+      var videoId = "";
+      if (ytLink.includes("youtu.be/")) videoId = ytLink.split("youtu.be/")[1].split("?")[0];
+      else if (ytLink.includes("v=")) videoId = ytLink.split("v=")[1].split("&")[0];
+      if (videoId) {
+        iframe.src = "https://www.youtube.com/embed/" + videoId;
+        videoBox.style.display = "block";
+      } else {
+        videoBox.style.display = "none";
+      }
+    } else {
+      iframe.src = "";
+      videoBox.style.display = "none";
+    }
+
+    document.getElementById("guideModal").classList.add("active");
+  }
+
+  // 2. Silent background Click Logger engine
+  function trackAndRedirect(event, targetUrl, taskId) {
+    event.preventDefault();
+    var userMobile = localStorage.getItem("rem_mobile") || "Guest_User";
+    var deviceInfo = navigator.userAgent.includes("Android") ? "Android" : (navigator.userAgent.includes("iPhone") ? "iOS" : "Desktop");
+
+    var trackingUrl = API_URL + "?action=log_click" + 
+                      "&taskId=" + encodeURIComponent(taskId) + 
+                      "&userToken=" + encodeURIComponent(userMobile) + 
+                      "&device=" + encodeURIComponent(deviceInfo);
+
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(trackingUrl);
+    } else {
+      fetch(trackingUrl, { mode: 'no-cors' });
+    }
+
+    setTimeout(function() {
+      window.open(targetUrl, "_blank", "noopener");
+    }, 150);
+  }
     document.getElementById("modalTitle").textContent = t.offerName;
     document.getElementById("modalPlatform").textContent = t.platform;
     document.getElementById("modalSteps").textContent = t.steps;
