@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Task Rewards | Earn Pocket Money</title>
+<title>Task Rewards | Earn Daily Pocket Money</title>
 <link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#0A0E1A" />
+<meta name="theme-color" content="#080C16" />
 <link rel="apple-touch-icon" href="icon-192.png" />
 
 <!-- Google Fonts: Plus Jakarta Sans -->
@@ -16,14 +16,12 @@
 <style>
   :root {
     --bg-dark: #080C16;
-    --hero-bg: radial-gradient(circle at 50% 0%, #172A54 0%, #080C16 75%);
+    --card-bg: rgba(16, 24, 40, 0.78);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-glow: 0 10px 30px -10px rgba(37, 99, 235, 0.2);
     --primary-blue: #2563EB;
     --primary-glow: #3B82F6;
-    --accent-cyan: #06B6D4;
     --accent-emerald: #10B981;
-    --card-bg: rgba(16, 24, 40, 0.72);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --card-glow: 0 10px 30px -10px rgba(37, 99, 235, 0.18);
     --text-primary: #F8FAFC;
     --text-muted: #94A3B8;
     --text-sub: #64748B;
@@ -37,18 +35,53 @@
     background: var(--bg-dark);
     color: var(--text-primary);
     min-height: 100vh;
-    padding-bottom: 50px;
+    padding-bottom: 70px;
     background-image: 
       radial-gradient(ellipse 80% 50% at 50% -20%, rgba(37, 99, 235, 0.28), transparent),
       radial-gradient(circle at 100% 40%, rgba(6, 182, 212, 0.06), transparent);
     background-repeat: no-repeat;
   }
 
+  /* Offline Alert Banner */
+  #offlineBanner {
+    display: none;
+    background: #DC2626;
+    color: #fff;
+    text-align: center;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  /* PWA Install Banner */
+  #pwaBanner {
+    display: none;
+    background: linear-gradient(90deg, #1E293B, #0F172A);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 16px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #pwaBanner span { font-size: 0.8rem; font-weight: 600; color: #E2E8F0; }
+  .pwa-btn {
+    background: var(--primary-blue);
+    border: none;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
   /* Header Section */
   header {
     text-align: center;
-    padding: 32px 18px 20px;
-    max-width: 540px;
+    padding: 24px 16px 12px;
+    max-width: 520px;
     margin: 0 auto;
   }
 
@@ -63,12 +96,12 @@
     font-size: 0.76rem;
     font-weight: 600;
     color: #60A5FA;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   header h1 {
     margin: 0;
-    font-size: 1.7rem;
+    font-size: 1.65rem;
     font-weight: 800;
     letter-spacing: -0.02em;
     background: linear-gradient(180deg, #FFFFFF 20%, #94A3B8 100%);
@@ -76,20 +109,37 @@
     -webkit-text-fill-color: transparent;
   }
 
-  header p {
-    margin: 8px 0 0;
-    font-size: 0.88rem;
-    color: var(--text-muted);
-    line-height: 1.45;
+  /* Live Social Proof Payout Ticker */
+  .payout-ticker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px auto 0;
+    font-size: 0.8rem;
+    color: #34D399;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 20px;
+    padding: 6px 14px;
+    max-width: fit-content;
   }
+  .pulse-dot {
+    width: 7px; height: 7px;
+    background: #10B981;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #10B981;
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
 
-  /* Trust Indicators Grid (Point 3) */
+  /* Trust Indicators Grid */
   .trust-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
     max-width: 500px;
-    margin: 18px auto 22px;
+    margin: 14px auto 18px;
     padding: 0 16px;
   }
 
@@ -97,49 +147,41 @@
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 12px;
-    padding: 10px 8px;
+    padding: 9px 6px;
     text-align: center;
     backdrop-filter: blur(8px);
   }
-
-  .trust-icon { font-size: 1.1rem; margin-bottom: 3px; display: block; }
+  .trust-icon { font-size: 1rem; display: block; margin-bottom: 2px; }
   .trust-title { font-size: 0.72rem; font-weight: 700; color: #E2E8F0; }
   .trust-desc { font-size: 0.62rem; color: var(--text-sub); }
 
   /* Main Container */
-  main {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 0 16px;
-  }
+  main { max-width: 500px; margin: 0 auto; padding: 0 16px; }
 
-  /* Floating Segmented Tabs */
+  /* Segmented 3-Tab Bar */
   .tabs-wrapper {
-    background: rgba(15, 23, 42, 0.7);
+    background: rgba(15, 23, 42, 0.75);
     border: 1px solid rgba(255, 255, 255, 0.08);
     padding: 4px;
     border-radius: 14px;
     display: flex;
-    gap: 6px;
-    margin-bottom: 22px;
+    gap: 4px;
+    margin-bottom: 18px;
     backdrop-filter: blur(12px);
   }
 
   .tab-btn {
     flex: 1;
-    padding: 11px 14px;
+    padding: 10px 8px;
     border: none;
     border-radius: 10px;
     background: transparent;
     color: var(--text-muted);
     font-weight: 600;
-    font-size: 0.88rem;
+    font-size: 0.8rem;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
+    transition: all 0.25s ease;
+    text-align: center;
   }
 
   .tab-btn.active {
@@ -151,28 +193,63 @@
   section { display: none; }
   section.active { display: block; }
 
+  /* Search & Category Filter Bar */
+  .search-input {
+    width: 100%;
+    padding: 11px 14px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #F8FAFC;
+    font-size: 0.85rem;
+    outline: none;
+    margin-bottom: 12px;
+  }
+  .search-input:focus { border-color: var(--primary-glow); }
+
+  .filter-chips {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+    scrollbar-width: none;
+  }
+  .filter-chips::-webkit-scrollbar { display: none; }
+
+  .chip {
+    white-space: nowrap;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .chip.active {
+    background: rgba(37, 99, 235, 0.2);
+    border-color: #3B82F6;
+    color: #93C5FD;
+  }
+
   /* Task Card Aesthetics */
   .card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 18px;
-    padding: 18px;
+    padding: 16px;
     margin-bottom: 14px;
     box-shadow: var(--card-glow);
     backdrop-filter: blur(16px);
-    transition: transform 0.2s ease, border-color 0.2s ease;
-  }
-
-  .card:active {
-    transform: scale(0.985);
   }
 
   .card-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 12px;
+    gap: 10px;
   }
 
   .card h3 {
@@ -180,16 +257,14 @@
     font-size: 1.05rem;
     font-weight: 700;
     color: #F8FAFC;
-    letter-spacing: -0.01em;
   }
 
   .card .platform {
-    font-size: 0.76rem;
+    font-size: 0.75rem;
     color: #60A5FA;
     font-weight: 600;
     margin-top: 2px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
   }
 
   .payout-chip {
@@ -197,99 +272,91 @@
     border: 1px solid rgba(16, 185, 129, 0.3);
     color: #34D399;
     font-weight: 800;
-    font-size: 0.95rem;
-    padding: 6px 12px;
+    font-size: 0.92rem;
+    padding: 5px 11px;
     border-radius: 999px;
     white-space: nowrap;
-    box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+  }
+
+  .urgency-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.72rem;
+    color: #FBBF24;
+    background: rgba(245, 158, 11, 0.1);
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin: 8px 0;
   }
 
   .steps-box {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.04);
-    border-radius: 12px;
-    padding: 11px 14px;
-    font-size: 0.82rem;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.8rem;
     color: #CBD5E1;
-    line-height: 1.5;
-    margin: 12px 0 16px;
+    line-height: 1.45;
+    margin: 8px 0 14px;
     white-space: pre-line;
   }
 
-  /* Buttons */
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     width: 100%;
     background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
     color: #fff;
     border: none;
     border-radius: 12px;
-    padding: 13px 18px;
-    font-size: 0.9rem;
+    padding: 12px 16px;
+    font-size: 0.88rem;
     font-weight: 700;
     cursor: pointer;
     text-decoration: none;
-    box-shadow: 0 4px 18px rgba(37, 99, 235, 0.35);
-    transition: all 0.2s ease;
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
   }
 
-  .btn:hover {
-    box-shadow: 0 6px 22px rgba(37, 99, 235, 0.5);
-    filter: brightness(1.08);
-  }
-
-  /* Form Design */
+  /* Form & Inputs */
   form {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 20px;
-    padding: 22px 18px;
-    box-shadow: var(--card-glow);
+    border-radius: 18px;
+    padding: 18px 16px;
     backdrop-filter: blur(16px);
   }
 
   label {
     display: block;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 600;
     color: #CBD5E1;
-    margin: 14px 0 6px;
-    letter-spacing: 0.2px;
+    margin: 12px 0 5px;
   }
   label:first-of-type { margin-top: 0; }
 
   input, select {
     width: 100%;
-    padding: 12px 14px;
-    border-radius: 11px;
+    padding: 11px 12px;
+    border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(15, 23, 42, 0.85);
     color: #F8FAFC;
     font-family: inherit;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     outline: none;
-    transition: border-color 0.2s ease;
   }
-
-  input:focus, select:focus {
-    border-color: var(--primary-glow);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
-  }
-
-  input[type="file"] {
-    padding: 9px 12px;
-    font-size: 0.82rem;
-    color: var(--text-muted);
-  }
+  input:focus, select:focus { border-color: var(--primary-glow); }
+  input[type="file"] { padding: 8px; font-size: 0.8rem; color: var(--text-muted); }
 
   .status-msg {
-    margin-top: 14px;
-    padding: 12px;
-    border-radius: 10px;
-    font-size: 0.85rem;
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.82rem;
     font-weight: 600;
     display: none;
     text-align: center;
@@ -297,31 +364,131 @@
   .status-msg.ok { background: rgba(16, 185, 129, 0.15); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.3); display: block; }
   .status-msg.err { background: rgba(239, 68, 68, 0.15); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.3); display: block; }
 
-  .muted-note {
-    color: var(--text-sub);
-    font-size: 0.74rem;
+  /* Track Status UI */
+  .track-result-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 10px;
+  }
+  .status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .badge-pending { background: rgba(245, 158, 11, 0.2); color: #FBBF24; }
+  .badge-approved { background: rgba(16, 185, 129, 0.2); color: #34D399; }
+  .badge-rejected { background: rgba(239, 68, 68, 0.2); color: #F87171; }
+
+  /* WhatsApp Viral Floating Button */
+  .whatsapp-share-bar {
+    margin: 22px 0 10px;
     text-align: center;
-    margin-top: 22px;
-    line-height: 1.45;
+  }
+  .btn-whatsapp {
+    background: #25D366;
+    color: #064E3B;
+    font-weight: 800;
+    font-size: 0.84rem;
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    text-decoration: none;
   }
 
-  .loading {
-    text-align: center;
-    color: var(--text-muted);
-    padding: 40px 0;
-    font-size: 0.92rem;
+  /* Guide Modal Popup */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(5, 8, 16, 0.88);
+    backdrop-filter: blur(10px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 16px;
   }
+  .modal-overlay.active { display: flex; }
+
+  .modal-content {
+    background: #0F172A;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    max-width: 440px;
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: #CBD5E1;
+    font-size: 1.1rem;
+    border-radius: 50%;
+    width: 30px; height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-embed-box {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 12px 0;
+    background: #000;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .video-embed-box iframe { width: 100%; height: 100%; border: none; }
+
+  .muted-note {
+    color: var(--text-sub);
+    font-size: 0.72rem;
+    text-align: center;
+    margin-top: 16px;
+    line-height: 1.4;
+  }
+  .loading { text-align: center; color: var(--text-muted); padding: 36px 0; font-size: 0.88rem; }
 </style>
 </head>
 <body>
 
+<!-- Offline Network Alert -->
+<div id="offlineBanner">⚠️ You are offline. Check internet connection.</div>
+
+<!-- PWA Install Prompt -->
+<div id="pwaBanner">
+  <span>📱 Install App on Home Screen</span>
+  <button class="pwa-btn" id="installBtn">Install</button>
+</div>
+
 <header>
   <div class="pill-badge">✨ Instant Student Payouts</div>
   <h1>Earn Daily Cashback</h1>
-  <p>Complete simple digital tasks, submit proof, and get money credited directly to your UPI ID.</p>
+  
+  <!-- Live Social Proof Counter -->
+  <div class="payout-ticker">
+    <span class="pulse-dot"></span>
+    <span>₹24,800+ Paid to 140+ Students this month</span>
+  </div>
 </header>
 
-<!-- Trust Metric Badges (Point 3) -->
+<!-- Trust Metric Badges -->
 <div class="trust-strip">
   <div class="trust-card">
     <span class="trust-icon">🔒</span>
@@ -341,53 +508,102 @@
 </div>
 
 <main>
-  <!-- Segmented Tabs -->
+  <!-- 3-Segmented Tabs -->
   <div class="tabs-wrapper">
-    <button class="tab-btn active" data-tab="tasks">🔥 Available Tasks</button>
+    <button class="tab-btn active" data-tab="tasks">🔥 Tasks</button>
     <button class="tab-btn" data-tab="submit">📤 Submit Proof</button>
+    <button class="tab-btn" data-tab="track">🔍 Track Status</button>
   </div>
 
-  <!-- Tasks Feed -->
+  <!-- TAB 1: TASKS FEED -->
   <section id="tasks" class="active">
-    <div id="taskList" class="loading">Loading available tasks…</div>
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search tasks (e.g. Upstox, Kotak)..." />
+    
+    <div class="filter-chips">
+      <div class="chip active" data-filter="all">All Offers</div>
+      <div class="chip" data-filter="demat">Demat Accounts</div>
+      <div class="chip" data-filter="bank">Bank Accounts</div>
+      <div class="chip" data-filter="micro">Micro Tasks</div>
+    </div>
+
+    <div id="taskList" class="loading">Loading live tasks…</div>
+
+    <!-- WhatsApp Viral Referral Share -->
+    <div class="whatsapp-share-bar">
+      <a id="waShareBtn" href="#" target="_blank" class="btn-whatsapp">
+        💬 Share App on WhatsApp (+Help Friends Earn)
+      </a>
+    </div>
   </section>
 
-  <!-- Submit Proof Form -->
+  <!-- TAB 2: SUBMIT PROOF FORM -->
   <section id="submit">
     <form id="submitForm">
       <label>Full Name</label>
       <input type="text" id="userName" placeholder="e.g. Rahul Sharma" required />
 
-      <label>Mobile Number (Registered)</label>
-      <input type="tel" id="mobile" required pattern="[0-9]{10}" placeholder="10-digit phone number" />
+      <label>Mobile Number</label>
+      <input type="tel" id="mobile" required pattern="[0-9]{10}" placeholder="10-digit number" />
 
       <label>Select Completed Task</label>
       <select id="taskSelect" required>
         <option value="">Loading tasks…</option>
       </select>
 
-      <label>Upload Screenshot Proof</label>
+      <label>Screenshot Proof</label>
       <input type="file" id="screenshot" accept="image/*" required />
 
-      <label>Your UPI ID (For Payment)</label>
-      <input type="text" id="upiId" required placeholder="example@okhdfcbank" />
+      <label>UPI ID (For Direct Payout)</label>
+      <input type="text" id="upiId" required placeholder="yourname@upi" />
 
-      <div style="margin-top: 18px;">
-        <button type="submit" class="btn">Submit for Verification →</button>
+      <div style="margin-top: 16px;">
+        <button type="submit" id="submitBtn" class="btn">Submit for Verification →</button>
       </div>
       <div id="statusMsg" class="status-msg"></div>
     </form>
   </section>
 
-  <p class="muted-note">Payouts are manually verified against brand dashboards and sent directly to your UPI within 24–48 hours.</p>
+  <!-- TAB 3: TRACK SUBMISSION STATUS -->
+  <section id="track">
+    <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 18px 16px;">
+      <label style="margin-top:0;">Enter Registered Mobile Number</label>
+      <input type="tel" id="trackMobile" placeholder="Enter your 10-digit phone" />
+      <button class="btn" style="margin-top: 12px;" onclick="checkStatus()">Search Status 🔍</button>
+      
+      <div id="trackResultList" style="margin-top: 14px;"></div>
+    </div>
+  </section>
+
+  <p class="muted-note">Payouts are manually verified and transferred directly to your UPI ID within 24–48 hours of task completion.</p>
 </main>
 
+<!-- In-App Guide & Video Modal Popup -->
+<div id="guideModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3 id="modalTitle" style="margin: 0; font-size: 1.15rem; color: #fff;">Task Details</h3>
+    <div id="modalPlatform" style="font-size: 0.78rem; color: #60A5FA; margin-top: 3px; text-transform: uppercase;"></div>
+
+    <!-- Embedded YouTube Player -->
+    <div id="modalVideoBox" class="video-embed-box" style="display:none;">
+      <iframe id="videoIframe" src="" allowfullscreen></iframe>
+    </div>
+
+    <div style="margin-top: 12px;">
+      <div style="font-size: 0.82rem; font-weight: 700; color: #F8FAFC;">Step-by-Step Instructions:</div>
+      <div id="modalSteps" class="steps-box"></div>
+    </div>
+
+    <a id="modalAffiliateLink" href="#" target="_blank" rel="noopener" class="btn">Proceed to Task (Earn) ↗</a>
+  </div>
+</div>
+
 <script>
-  // Google Apps Script Web App URL
   var API_URL = "https://script.google.com/macros/s/AKfycbw0gwZSvTQhekWLSngSM7yVdcsB20BuK6dczH1JxXf7fie08zWvmkT6tSv68rtGKF4obw/exec";
-
   var tasksCache = [];
+  var currentFilter = "all";
 
+  // Tab Switcher
   document.querySelectorAll(".tab-btn").forEach(function (btn) {
     btn.addEventListener("click", function () {
       document.querySelectorAll(".tab-btn").forEach(function (b) { b.classList.remove("active"); });
@@ -397,12 +613,46 @@
     });
   });
 
+  // Local Storage "Remember Me"
+  window.addEventListener("DOMContentLoaded", function () {
+    if (localStorage.getItem("rem_userName")) document.getElementById("userName").value = localStorage.getItem("rem_userName");
+    if (localStorage.getItem("rem_mobile")) {
+      document.getElementById("mobile").value = localStorage.getItem("rem_mobile");
+      document.getElementById("trackMobile").value = localStorage.getItem("rem_mobile");
+    }
+    if (localStorage.getItem("rem_upiId")) document.getElementById("upiId").value = localStorage.getItem("rem_upiId");
+
+    // WhatsApp viral share text generator
+    var waMsg = encodeURIComponent("Hey! Join this app to earn pocket money (₹150-₹400 per task) directly into UPI. Check out live tasks here: " + window.location.href);
+    document.getElementById("waShareBtn").href = "https://api.whatsapp.com/send?text=" + waMsg;
+  });
+
+  // Offline / Network Detection
+  window.addEventListener("offline", function () { document.getElementById("offlineBanner").style.display = "block"; });
+  window.addEventListener("online", function () { document.getElementById("offlineBanner").style.display = "none"; });
+
+  // PWA Install Prompt Handling
+  var deferredPrompt;
+  window.addEventListener("beforeinstallprompt", function (e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById("pwaBanner").style.display = "flex";
+  });
+  document.getElementById("installBtn").addEventListener("click", function () {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt = null;
+      document.getElementById("pwaBanner").style.display = "none";
+    }
+  });
+
+  // Load Tasks from Google Sheet API
   function loadTasks() {
     fetch(API_URL + "?action=tasks")
       .then(function (r) { return r.json(); })
       .then(function (tasks) {
         tasksCache = tasks;
-        renderTasks(tasks);
+        renderFilteredTasks();
         renderTaskOptions(tasks);
       })
       .catch(function () {
@@ -410,11 +660,42 @@
       });
   }
 
+  // Filter Chips Logic
+  document.querySelectorAll(".chip").forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      document.querySelectorAll(".chip").forEach(function (c) { c.classList.remove("active"); });
+      chip.classList.add("active");
+      currentFilter = chip.dataset.filter;
+      renderFilteredTasks();
+    });
+  });
+
+  // Search Input Filter
+  document.getElementById("searchInput").addEventListener("input", function () {
+    renderFilteredTasks();
+  });
+
+  function renderFilteredTasks() {
+    var query = document.getElementById("searchInput").value.toLowerCase();
+    var filtered = tasksCache.filter(function (t) {
+      var matchQuery = (t.offerName && t.offerName.toLowerCase().includes(query)) || 
+                         (t.platform && t.platform.toLowerCase().includes(query));
+      var matchFilter = true;
+      if (currentFilter === "demat") matchFilter = (t.offerName + t.platform).toLowerCase().includes("demat") || (t.offerName + t.platform).toLowerCase().includes("upstox") || (t.offerName + t.platform).toLowerCase().includes("angel");
+      else if (currentFilter === "bank") matchFilter = (t.offerName + t.platform).toLowerCase().includes("bank") || (t.offerName + t.platform).toLowerCase().includes("kotak") || (t.offerName + t.platform).toLowerCase().includes("au");
+      else if (currentFilter === "micro") matchFilter = !(t.offerName + t.platform).toLowerCase().includes("demat") && !(t.offerName + t.platform).toLowerCase().includes("bank");
+      return matchQuery && matchFilter;
+    });
+
+    renderTasks(filtered);
+  }
+
   function renderTasks(tasks) {
     var list = document.getElementById("taskList");
-    if (!tasks.length) { list.textContent = "No active tasks right now. Check back soon."; return; }
+    if (!tasks.length) { list.textContent = "No tasks found matching your filter."; return; }
     list.innerHTML = "";
-    tasks.forEach(function (t) {
+
+    tasks.forEach(function (t, index) {
       var card = document.createElement("div");
       card.className = "card";
       card.innerHTML =
@@ -425,10 +706,53 @@
           "</div>" +
           "<div class='payout-chip'>Earn ₹" + t.payoutToUser + "</div>" +
         "</div>" +
+        "<div class='urgency-badge'>⏳ Limited Slots • Closes Soon</div>" +
         "<div class='steps-box'>" + escapeHtml(t.steps) + "</div>" +
-        "<a class='btn' href='" + t.referralLink + "' target='_blank' rel='noopener'>Start Task & Earn ↗</a>";
+        "<button class='btn' onclick='openTaskGuide(" + index + ")'>View Guide & Start Task ↗</button>";
       list.appendChild(card);
     });
+  }
+
+  // Guide & Video Modal Popup
+  function openTaskGuide(index) {
+    var t = tasksCache[index];
+    if (!t) return;
+
+    document.getElementById("modalTitle").textContent = t.offerName;
+    document.getElementById("modalPlatform").textContent = t.platform;
+    document.getElementById("modalSteps").textContent = t.steps;
+    document.getElementById("modalAffiliateLink").href = t.referralLink;
+
+    var videoBox = document.getElementById("modalVideoBox");
+    var iframe = document.getElementById("videoIframe");
+    var ytLink = null;
+
+    if (t.steps && (t.steps.includes("youtu.be") || t.steps.includes("youtube.com"))) {
+      var match = t.steps.match(/https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/[^\s]+/);
+      if (match) ytLink = match[0];
+    }
+
+    if (ytLink) {
+      var videoId = "";
+      if (ytLink.includes("youtu.be/")) videoId = ytLink.split("youtu.be/")[1].split("?")[0];
+      else if (ytLink.includes("v=")) videoId = ytLink.split("v=")[1].split("&")[0];
+      if (videoId) {
+        iframe.src = "https://www.youtube.com/embed/" + videoId;
+        videoBox.style.display = "block";
+      } else {
+        videoBox.style.display = "none";
+      }
+    } else {
+      iframe.src = "";
+      videoBox.style.display = "none";
+    }
+
+    document.getElementById("guideModal").classList.add("active");
+  }
+
+  function closeModal() {
+    document.getElementById("videoIframe").src = "";
+    document.getElementById("guideModal").classList.remove("active");
   }
 
   function renderTaskOptions(tasks) {
@@ -448,25 +772,44 @@
     return div.innerHTML;
   }
 
+  // Proof Submission with Duplicate Check & Remember Me
   document.getElementById("submitForm").addEventListener("submit", function (e) {
     e.preventDefault();
     var fileInput = document.getElementById("screenshot");
     var file = fileInput.files[0];
     if (!file) return;
 
+    var userName = document.getElementById("userName").value.trim();
+    var mobile = document.getElementById("mobile").value.trim();
+    var taskId = document.getElementById("taskSelect").value;
+    var upiId = document.getElementById("upiId").value.trim();
+
+    // Duplicate submission guard (local history check)
+    var localKey = "submitted_" + mobile + "_" + taskId;
+    if (localStorage.getItem(localKey)) {
+      alert("You have already submitted proof for this task! Please wait for admin verification.");
+      return;
+    }
+
+    // Save into LocalStorage (Remember Me)
+    localStorage.setItem("rem_userName", userName);
+    localStorage.setItem("rem_mobile", mobile);
+    localStorage.setItem("rem_upiId", upiId);
+
     var statusEl = document.getElementById("statusMsg");
     statusEl.className = "status-msg";
     statusEl.textContent = "Uploading proof securely…";
     statusEl.style.display = "block";
+    document.getElementById("submitBtn").disabled = true;
 
     var reader = new FileReader();
     reader.onload = function () {
       var base64 = reader.result.split(",")[1];
       var payload = {
-        userName: document.getElementById("userName").value,
-        mobile: document.getElementById("mobile").value,
-        taskId: document.getElementById("taskSelect").value,
-        upiId: document.getElementById("upiId").value,
+        userName: userName,
+        mobile: mobile,
+        taskId: taskId,
+        upiId: upiId,
         screenshotBase64: base64,
         screenshotMimeType: file.type,
         screenshotFileName: file.name
@@ -479,22 +822,70 @@
       })
         .then(function (r) { return r.json(); })
         .then(function (res) {
+          document.getElementById("submitBtn").disabled = false;
           if (res.ok) {
+            localStorage.setItem(localKey, "true");
             statusEl.className = "status-msg ok";
-            statusEl.textContent = "Submitted successfully! Ref ID: " + res.submissionId + ". You will receive UPI payout once verified.";
+            statusEl.textContent = "Submitted! Ref ID: " + res.submissionId + ". Payment will be verified shortly.";
             document.getElementById("submitForm").reset();
+            // Restore saved credentials
+            document.getElementById("userName").value = userName;
+            document.getElementById("mobile").value = mobile;
+            document.getElementById("upiId").value = upiId;
           } else {
             statusEl.className = "status-msg err";
             statusEl.textContent = "Error: " + res.error;
           }
         })
         .catch(function () {
+          document.getElementById("submitBtn").disabled = false;
           statusEl.className = "status-msg err";
           statusEl.textContent = "Network error. Try again.";
         });
     };
     reader.readAsDataURL(file);
   });
+
+  // Track Status Functionality
+  function checkStatus() {
+    var mobile = document.getElementById("trackMobile").value.trim();
+    var resBox = document.getElementById("trackResultList");
+    if (!mobile || mobile.length !== 10) {
+      resBox.innerHTML = "<div style='color:#F87171; font-size:0.8rem;'>Please enter a valid 10-digit number.</div>";
+      return;
+    }
+
+    resBox.innerHTML = "<div class='loading' style='padding:12px;'>Checking records…</div>";
+
+    fetch(API_URL + "?action=status&mobile=" + encodeURIComponent(mobile))
+      .then(function (r) { return r.json(); })
+      .then(function (items) {
+        if (!items || !items.length) {
+          resBox.innerHTML = "<div style='color:var(--text-muted); font-size:0.82rem; margin-top:8px;'>No submissions found for this mobile number.</div>";
+          return;
+        }
+        resBox.innerHTML = "";
+        items.forEach(function (sub) {
+          var badgeClass = "badge-pending";
+          var st = (sub.status || "Pending").toLowerCase();
+          if (st.includes("approved") || st.includes("paid")) badgeClass = "badge-approved";
+          else if (st.includes("rejected")) badgeClass = "badge-rejected";
+
+          var itemEl = document.createElement("div");
+          itemEl.className = "track-result-card";
+          itemEl.innerHTML = 
+            "<div style='display:flex; justify-content:space-between; align-items:center;'>" +
+              "<div style='font-weight:700; font-size:0.88rem; color:#fff;'>" + escapeHtml(sub.taskId) + "</div>" +
+              "<span class='status-badge " + badgeClass + "'>" + escapeHtml(sub.status || "Pending") + "</span>" +
+            "</div>" +
+            "<div style='font-size:0.75rem; color:var(--text-muted); margin-top:4px;'>Submitted on: " + escapeHtml(sub.date || "Recent") + "</div>";
+          resBox.appendChild(itemEl);
+        });
+      })
+      .catch(function () {
+        resBox.innerHTML = "<div style='color:#F87171; font-size:0.8rem;'>Could not fetch status. Check connection.</div>";
+      });
+  }
 
   loadTasks();
 
