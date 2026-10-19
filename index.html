@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Task Rewards</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#1F4E78" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<style>
+  :root {
+    --primary: #1F4E78;
+    --primary-light: #2E75B6;
+    --bg: #F4F6F8;
+    --card-bg: #FFFFFF;
+    --text: #1A1A1A;
+    --muted: #6B7280;
+    --success: #1E8E3E;
+    --border: #E2E6EA;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  header {
+    background: var(--primary);
+    color: #fff;
+    padding: 18px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding-top: calc(18px + env(safe-area-inset-top, 0px));
+  }
+  header h1 { margin: 0; font-size: 1.15rem; }
+  header p { margin: 2px 0 0; font-size: 0.8rem; opacity: 0.85; }
+  main { max-width: 520px; margin: 0 auto; padding: 16px; padding-bottom: 48px; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .tab-btn {
+    flex: 1; padding: 10px; border: none; border-radius: 10px;
+    background: var(--card-bg); color: var(--primary); font-weight: 600;
+    border: 1px solid var(--border); cursor: pointer; font-size: 0.9rem;
+  }
+  .tab-btn.active { background: var(--primary); color: #fff; }
+  section { display: none; }
+  section.active { display: block; }
+  .card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px; margin-bottom: 12px;
+  }
+  .card h3 { margin: 0 0 4px; font-size: 1rem; }
+  .card .platform { font-size: 0.75rem; color: var(--muted); margin-bottom: 8px; }
+  .payout { font-weight: 700; color: var(--success); font-size: 1.05rem; }
+  .steps { font-size: 0.85rem; color: var(--muted); margin: 8px 0; white-space: pre-line; }
+  .btn {
+    display: inline-block; background: var(--primary-light); color: #fff;
+    border: none; border-radius: 8px; padding: 10px 14px; font-size: 0.85rem;
+    font-weight: 600; cursor: pointer; text-decoration: none; margin-top: 6px;
+  }
+  .btn.secondary { background: var(--primary); width: 100%; text-align: center; }
+  form { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  label { display: block; font-size: 0.8rem; font-weight: 600; margin: 12px 0 4px; }
+  input, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); font-size: 0.9rem; }
+  .status-msg { margin-top: 12px; padding: 10px; border-radius: 8px; font-size: 0.85rem; display: none; }
+  .status-msg.ok { background: #E6F4EA; color: var(--success); display: block; }
+  .status-msg.err { background: #FCE8E6; color: #C5221F; display: block; }
+  .muted-note { color: var(--muted); font-size: 0.75rem; text-align: center; margin-top: 18px; }
+  .loading { text-align: center; color: var(--muted); padding: 24px 0; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Task Rewards</h1>
+  <p>Complete a task, submit proof, get paid</p>
+</header>
+
+<main>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="tasks">Tasks</button>
+    <button class="tab-btn" data-tab="submit">Submit Proof</button>
+  </div>
+
+  <section id="tasks" class="active">
+    <div id="taskList" class="loading">Loading tasks…</div>
+  </section>
+
+  <section id="submit">
+    <form id="submitForm">
+      <label>Your Name</label>
+      <input type="text" id="userName" required />
+
+      <label>Mobile Number</label>
+      <input type="tel" id="mobile" required pattern="[0-9]{10}" placeholder="10-digit number" />
+
+      <label>Select Task</label>
+      <select id="taskSelect" required>
+        <option value="">Loading tasks…</option>
+      </select>
+
+      <label>Screenshot Proof</label>
+      <input type="file" id="screenshot" accept="image/*" required />
+
+      <label>Your UPI ID</label>
+      <input type="text" id="upiId" required placeholder="yourname@upi" />
+
+      <button type="submit" class="btn secondary">Submit</button>
+      <div id="statusMsg" class="status-msg"></div>
+    </form>
+  </section>
+
+  <p class="muted-note">Payouts are sent manually after verification. Usually within 2-3 days of approval.</p>
+</main>
+
+<script>
+  // ⚠️ PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
+  var API_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+  var tasksCache = [];
+
+  document.querySelectorAll(".tab-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll(".tab-btn").forEach(function (b) { b.classList.remove("active"); });
+      document.querySelectorAll("section").forEach(function (s) { s.classList.remove("active"); });
+      btn.classList.add("active");
+      document.getElementById(btn.dataset.tab).classList.add("active");
+    });
+  });
+
+  function loadTasks() {
+    fetch(API_URL + "?action=tasks")
+      .then(function (r) { return r.json(); })
+      .then(function (tasks) {
+        tasksCache = tasks;
+        renderTasks(tasks);
+        renderTaskOptions(tasks);
+      })
+      .catch(function () {
+        document.getElementById("taskList").textContent = "Could not load tasks. Check your internet connection.";
+      });
+  }
+
+  function renderTasks(tasks) {
+    var list = document.getElementById("taskList");
+    if (!tasks.length) { list.textContent = "No active tasks right now. Check back soon."; return; }
+    list.innerHTML = "";
+    tasks.forEach(function (t) {
+      var card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML =
+        "<h3>" + escapeHtml(t.offerName) + "</h3>" +
+        "<div class='platform'>" + escapeHtml(t.platform) + "</div>" +
+        "<div class='payout'>Earn ₹" + t.payoutToUser + "</div>" +
+        "<div class='steps'>" + escapeHtml(t.steps) + "</div>" +
+        "<a class='btn' href='" + t.referralLink + "' target='_blank' rel='noopener'>Open Link</a>";
+      list.appendChild(card);
+    });
+  }
+
+  function renderTaskOptions(tasks) {
+    var sel = document.getElementById("taskSelect");
+    sel.innerHTML = "<option value=''>Choose a task…</option>";
+    tasks.forEach(function (t) {
+      var opt = document.createElement("option");
+      opt.value = t.taskId;
+      opt.textContent = t.offerName + " (₹" + t.payoutToUser + ")";
+      sel.appendChild(opt);
+    });
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement("div");
+    div.textContent = str || "";
+    return div.innerHTML;
+  }
+
+  document.getElementById("submitForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var fileInput = document.getElementById("screenshot");
+    var file = fileInput.files[0];
+    if (!file) return;
+
+    var statusEl = document.getElementById("statusMsg");
+    statusEl.className = "status-msg";
+    statusEl.textContent = "Uploading…";
+    statusEl.style.display = "block";
+
+    var reader = new FileReader();
+    reader.onload = function () {
+      var base64 = reader.result.split(",")[1];
+      var payload = {
+        userName: document.getElementById("userName").value,
+        mobile: document.getElementById("mobile").value,
+        taskId: document.getElementById("taskSelect").value,
+        upiId: document.getElementById("upiId").value,
+        screenshotBase64: base64,
+        screenshotMimeType: file.type,
+        screenshotFileName: file.name
+      };
+
+      fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" }, // avoids CORS preflight on Apps Script
+        body: JSON.stringify(payload)
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (res.ok) {
+            statusEl.className = "status-msg ok";
+            statusEl.textContent = "Submitted! Reference: " + res.submissionId + ". You'll be paid after verification.";
+            document.getElementById("submitForm").reset();
+          } else {
+            statusEl.className = "status-msg err";
+            statusEl.textContent = "Error: " + res.error;
+          }
+        })
+        .catch(function () {
+          statusEl.className = "status-msg err";
+          statusEl.textContent = "Network error. Try again.";
+        });
+    };
+    reader.readAsDataURL(file);
+  });
+
+  loadTasks();
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+  }
+</script>
+</body>
+</html>
