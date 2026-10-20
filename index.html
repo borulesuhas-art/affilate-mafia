@@ -668,17 +668,55 @@
         wBtn.textContent = "Withdraw to UPI (Min ₹50)";
       }
     }
-
-    // ---------------- CLICK TRACKER ----------------
+// ---------------- CLICK TRACKER ----------------
+    // ---------------- CLICK TRACKER (Brave/Adblock Proof) ----------------
     function trackClick(taskId) {
-      var mobile = (currentUser && currentUser.mobile) ? currentUser.mobile : (localStorage.getItem("rem_mobile") || "Guest");
-      var device = navigator.userAgent.includes("Android") ? "Android" : (navigator.userAgent.includes("iPhone") ? "iOS" : "Desktop");
-      var url = API_URL + "?action=log_click&taskId=" + encodeURIComponent(taskId) + "&userToken=" + encodeURIComponent(mobile) + "&device=" + encodeURIComponent(device);
-      
-      fetch(url, { mode: 'no-cors', keepalive: true }).catch(function(){});
+      try {
+        var mobile = (currentUser && currentUser.mobile) ? currentUser.mobile : (localStorage.getItem("rem_mobile") || "Guest");
+        var device = /Android/i.test(navigator.userAgent) ? "Android" : (/iPhone|iPad/i.test(navigator.userAgent) ? "iOS" : "Desktop");
+        var pingUrl = API_URL + "?action=log_click&taskId=" + encodeURIComponent(taskId) + "&userToken=" + encodeURIComponent(mobile) + "&device=" + encodeURIComponent(device) + "&_t=" + Date.now();
+
+        // Method 1: Tracking Pixel (Bypasses CORS & adblock drops)
+        var img = new Image();
+        img.src = pingUrl;
+
+        // Method 2: Beacon fallback
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(pingUrl);
+        }
+      } catch(e) {}
     }
 
-    // ---------------- PROOF SUBMISSION ----------------
+    // ---------------- CLIENT-SIDE IMAGE COMPRESSOR ----------------
+    function compressImage(file, maxWidth, quality, callback) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement("canvas");
+          var width = img.width;
+          var height = img.height;
+
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Compresses to clean lightweight JPEG base64
+          var compressedBase64 = canvas.toDataURL("image/jpeg", quality).split(",")[1];
+          callback(compressedBase64);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ---------------- PROOF SUBMISSION (With Auto Compression) ----------------
     function handleProofSubmit(e) {
       e.preventDefault();
       var mobile = document.getElementById("subMobile").value.trim();
@@ -697,14 +735,11 @@
       }
 
       btn.disabled = true;
-      btn.textContent = "Uploading proof securely…";
+      btn.textContent = "Compressing & uploading securely…";
       msg.style.display = "none";
 
-      var reader = new FileReader();
-      reader.onload = function(event) {
-        var base64Data = event.target.result.split(",")[1];
-        var mimeType = file.type || "image/jpeg";
-
+      // 4MB photo ko ~120KB me compress karke bhejega
+      compressImage(file, 1080, 0.7, function(base64Data) {
         fetch(API_URL, {
           method: "POST",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
@@ -715,7 +750,7 @@
             upiId: upi,
             taskName: task,
             fileName: file.name,
-            mimeType: mimeType,
+            mimeType: "image/jpeg",
             base64Data: base64Data
           })
         })
@@ -742,10 +777,9 @@
           msg.textContent = "Network error. Please try again.";
           msg.style.display = "block";
         });
-      };
-      reader.readAsDataURL(file);
+      });
     }
-
+    
     // ---------------- WITHDRAWAL ----------------
     function openWithdrawModal() {
       var mobile = (currentUser && currentUser.mobile) ? currentUser.mobile : localStorage.getItem("rem_mobile");
