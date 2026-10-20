@@ -953,13 +953,22 @@
   }
 
   function submitWithdrawal() {
+    var userMobile = (currentUser && currentUser.mobile) ? currentUser.mobile : localStorage.getItem("rem_mobile");
     var amount = Number(document.getElementById("withdrawAmount").value);
     var upiId = document.getElementById("withdrawUpi").value.trim();
     var msg = document.getElementById("withdrawMsg");
 
+    if (!userMobile) {
+      msg.className = "status-msg err";
+      msg.textContent = "Please login first to withdraw.";
+      msg.style.display = "block";
+      return;
+    }
+
     if (amount < 50 || !upiId.includes("@")) {
       msg.className = "status-msg err";
       msg.textContent = "Enter at least ₹50 and a valid UPI ID.";
+      msg.style.display = "block";
       return;
     }
 
@@ -972,7 +981,7 @@
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({
         action: "request_withdrawal",
-        mobile: currentUser.mobile,
+        mobile: userMobile,
         amount: amount,
         upiId: upiId
       })
@@ -983,12 +992,16 @@
         localStorage.setItem("rem_upiId", upiId);
         msg.className = "status-msg ok";
         msg.textContent = "Success! Transfer request queued (Ref: " + res.reqId + ").";
-        syncWallet(currentUser.mobile);
+        syncWallet(userMobile);
         setTimeout(function () { closeModal("withdrawModal"); }, 2000);
       } else {
         msg.className = "status-msg err";
         msg.textContent = res.error;
       }
+    })
+    .catch(function () {
+      msg.className = "status-msg err";
+      msg.textContent = "Network error. Please try again.";
     });
   }
 
@@ -1095,12 +1108,12 @@
     });
   }
 
-  function trackClick(taskId) {
-    var mobile = currentUser ? currentUser.mobile : "Guest";
-    var device = navigator.userAgent.includes("Android") ? "Android" : "Other";
+ function trackClick(taskId) {
+    var mobile = (currentUser && currentUser.mobile) ? currentUser.mobile : (localStorage.getItem("rem_mobile") || "Guest");
+    var device = navigator.userAgent.includes("Android") ? "Android" : (navigator.userAgent.includes("iPhone") ? "iOS" : "Desktop");
     var url = API_URL + "?action=log_click&taskId=" + encodeURIComponent(taskId) + "&userToken=" + encodeURIComponent(mobile) + "&device=" + encodeURIComponent(device);
-    if (navigator.sendBeacon) navigator.sendBeacon(url);
-    else fetch(url, { mode: 'no-cors' });
+    
+    fetch(url, { mode: 'no-cors', keepalive: true }).catch(function(){});
   }
 
   // 8. Proof Submission with Hash Duplicate Blocker
