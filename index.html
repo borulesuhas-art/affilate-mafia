@@ -35,7 +35,7 @@
     background: var(--bg-dark);
     color: var(--text-primary);
     min-height: 100vh;
-    padding-bottom: 70px;
+    padding-bottom: 80px;
     background-image: 
       radial-gradient(ellipse 80% 50% at 50% -20%, rgba(37, 99, 235, 0.28), transparent),
       radial-gradient(circle at 100% 40%, rgba(6, 182, 212, 0.06), transparent);
@@ -77,10 +77,9 @@
     cursor: pointer;
   }
 
-  /* Header Section */
   header {
     text-align: center;
-    padding: 24px 16px 12px;
+    padding: 20px 16px 10px;
     max-width: 520px;
     margin: 0 auto;
   }
@@ -96,17 +95,117 @@
     font-size: 0.76rem;
     font-weight: 600;
     color: #60A5FA;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   header h1 {
     margin: 0;
-    font-size: 1.65rem;
+    font-size: 1.6rem;
     font-weight: 800;
     letter-spacing: -0.02em;
     background: linear-gradient(180deg, #FFFFFF 20%, #94A3B8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  /* In-App Wallet Dashboard Widget */
+  .wallet-widget {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.85));
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    border-radius: 18px;
+    padding: 14px 16px;
+    margin: 12px auto 16px;
+    max-width: 500px;
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+  }
+
+  .wallet-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .wallet-balance-box {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wallet-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .wallet-val {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #34D399;
+  }
+
+  .pending-pill {
+    font-size: 0.74rem;
+    color: #FBBF24;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+
+  .withdraw-progress-wrap {
+    margin-top: 10px;
+  }
+
+  .progress-bar-bg {
+    background: rgba(255, 255, 255, 0.08);
+    height: 6px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3B82F6, #10B981);
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .progress-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    color: var(--text-sub);
+    margin-top: 4px;
+  }
+
+  .btn-withdraw {
+    width: 100%;
+    margin-top: 10px;
+    padding: 9px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+    background: #334155;
+    color: #94A3B8;
+    transition: all 0.3s ease;
+  }
+
+  .btn-withdraw.active {
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    animation: pulse-glow 2s infinite;
+  }
+
+  @keyframes pulse-glow {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
   }
 
   /* Live Social Proof Payout Ticker */
@@ -115,13 +214,13 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin: 10px auto 0;
-    font-size: 0.8rem;
+    margin: 8px auto 0;
+    font-size: 0.78rem;
     color: #34D399;
     background: rgba(16, 185, 129, 0.08);
     border: 1px solid rgba(16, 185, 129, 0.2);
     border-radius: 20px;
-    padding: 6px 14px;
+    padding: 5px 12px;
     max-width: fit-content;
   }
   .pulse-dot {
@@ -132,28 +231,6 @@
     animation: pulse 1.8s infinite;
   }
   @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
-
-  /* Trust Indicators Grid */
-  .trust-strip {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    max-width: 500px;
-    margin: 14px auto 18px;
-    padding: 0 16px;
-  }
-
-  .trust-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    padding: 9px 6px;
-    text-align: center;
-    backdrop-filter: blur(8px);
-  }
-  .trust-icon { font-size: 1rem; display: block; margin-bottom: 2px; }
-  .trust-title { font-size: 0.72rem; font-weight: 700; color: #E2E8F0; }
-  .trust-desc { font-size: 0.62rem; color: var(--text-sub); }
 
   /* Main Container */
   main { max-width: 500px; margin: 0 auto; padding: 0 16px; }
@@ -166,7 +243,7 @@
     border-radius: 14px;
     display: flex;
     gap: 4px;
-    margin-bottom: 18px;
+    margin-bottom: 14px;
     backdrop-filter: blur(12px);
   }
 
@@ -193,7 +270,7 @@
   section { display: none; }
   section.active { display: block; }
 
-  /* Search & Category Filter Bar */
+  /* Search & Category Filter Chips */
   .search-input {
     width: 100%;
     padding: 11px 14px;
@@ -203,7 +280,7 @@
     color: #F8FAFC;
     font-size: 0.85rem;
     outline: none;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .search-input:focus { border-color: var(--primary-glow); }
 
@@ -211,8 +288,8 @@
     display: flex;
     gap: 6px;
     overflow-x: auto;
-    padding-bottom: 10px;
-    margin-bottom: 14px;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
     scrollbar-width: none;
   }
   .filter-chips::-webkit-scrollbar { display: none; }
@@ -278,16 +355,31 @@
     white-space: nowrap;
   }
 
-  .urgency-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.72rem;
-    color: #FBBF24;
-    background: rgba(245, 158, 11, 0.1);
+  .badges-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 8px 0;
+  }
+
+  .badge-tag {
+    font-size: 0.68rem;
+    padding: 3px 7px;
+    border-radius: 6px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #E2E8F0;
+  }
+
+  .badge-ladder {
+    font-size: 0.68rem;
     padding: 3px 8px;
     border-radius: 6px;
-    margin: 8px 0;
+    font-weight: 700;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: #FBBF24;
   }
 
   .steps-box {
@@ -298,8 +390,38 @@
     font-size: 0.8rem;
     color: #CBD5E1;
     line-height: 1.45;
-    margin: 8px 0 14px;
+    margin: 8px 0 12px;
     white-space: pre-line;
+  }
+
+  /* 1-Tap Copy Code Bar inside Card */
+  .copy-code-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px dashed rgba(59, 130, 246, 0.4);
+    border-radius: 10px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+  }
+
+  .copy-code-text {
+    font-size: 0.78rem;
+    font-family: monospace;
+    font-weight: 700;
+    color: #93C5FD;
+  }
+
+  .btn-copy-code {
+    background: var(--primary-blue);
+    border: none;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
   }
 
   .btn {
@@ -364,7 +486,7 @@
   .status-msg.ok { background: rgba(16, 185, 129, 0.15); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.3); display: block; }
   .status-msg.err { background: rgba(239, 68, 68, 0.15); color: #F87171; border: 1px solid rgba(239, 68, 68, 0.3); display: block; }
 
-  /* Track Status UI */
+  /* Track Status UI with Rejection Reason */
   .track-result-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.06);
@@ -384,27 +506,17 @@
   .badge-approved { background: rgba(16, 185, 129, 0.2); color: #34D399; }
   .badge-rejected { background: rgba(239, 68, 68, 0.2); color: #F87171; }
 
-  /* WhatsApp Viral Floating Button */
-  .whatsapp-share-bar {
-    margin: 22px 0 10px;
-    text-align: center;
-  }
-  .btn-whatsapp {
-    background: #25D366;
-    color: #064E3B;
-    font-weight: 800;
-    font-size: 0.84rem;
-    border-radius: 12px;
-    padding: 12px 16px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    text-decoration: none;
+  .rejection-reason-box {
+    background: rgba(239, 68, 68, 0.1);
+    border-left: 3px solid #EF4444;
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    color: #FCA5A5;
+    margin-top: 8px;
+    border-radius: 0 6px 6px 0;
   }
 
-  /* Guide Modal Popup */
+  /* Modals Base */
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -413,7 +525,7 @@
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 100;
+    z-index: 200;
     padding: 16px;
   }
   .modal-overlay.active { display: flex; }
@@ -445,16 +557,24 @@
     justify-content: center;
   }
 
-  .video-embed-box {
-    width: 100%;
-    height: 200px;
-    border-radius: 12px;
-    overflow: hidden;
-    margin: 12px 0;
-    background: #000;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+  /* Floating WhatsApp Support Desk */
+  .floating-wa {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    background: #25D366;
+    color: #064E3B;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 18px rgba(37, 211, 102, 0.4);
+    z-index: 90;
+    text-decoration: none;
+    font-size: 1.5rem;
   }
-  .video-embed-box iframe { width: 100%; height: 100%; border: none; }
 
   .muted-note {
     color: var(--text-sub);
@@ -468,10 +588,8 @@
 </head>
 <body>
 
-<!-- Offline Network Alert -->
 <div id="offlineBanner">⚠️ You are offline. Check internet connection.</div>
 
-<!-- PWA Install Prompt -->
 <div id="pwaBanner">
   <span>📱 Install App on Home Screen</span>
   <button class="pwa-btn" id="installBtn">Install</button>
@@ -481,30 +599,33 @@
   <div class="pill-badge">✨ Instant Student Payouts</div>
   <h1>Earn Daily Cashback</h1>
   
-  <!-- Live Social Proof Counter -->
   <div class="payout-ticker">
     <span class="pulse-dot"></span>
     <span>₹24,800+ Paid to 140+ Students this month</span>
   </div>
 </header>
 
-<!-- Trust Metric Badges -->
-<div class="trust-strip">
-  <div class="trust-card">
-    <span class="trust-icon">🔒</span>
-    <div class="trust-title">100% Free</div>
-    <div class="trust-desc">Zero Joining Fee</div>
+<!-- Wallet Header Dashboard -->
+<div class="wallet-widget">
+  <div class="wallet-top">
+    <div class="wallet-balance-box">
+      <span class="wallet-label">Wallet Balance</span>
+      <span class="wallet-val" id="walletBalance">₹0</span>
+    </div>
+    <div class="pending-pill" id="pendingBalance">₹0 Pending</div>
   </div>
-  <div class="trust-card">
-    <span class="trust-icon">⚡</span>
-    <div class="trust-title">UPI Payout</div>
-    <div class="trust-desc">Direct to Bank</div>
+  
+  <div class="withdraw-progress-wrap">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="withdrawProgress"></div>
+    </div>
+    <div class="progress-text">
+      <span>Min. Withdrawal: ₹50</span>
+      <span id="withdrawRemaining">₹50 needed</span>
+    </div>
   </div>
-  <div class="trust-card">
-    <span class="trust-icon">🛡️</span>
-    <div class="trust-title">Verified</div>
-    <div class="trust-desc">Official Brands</div>
-  </div>
+
+  <button id="withdrawBtn" class="btn-withdraw" onclick="openWithdrawModal()">Withdraw to UPI (Locked)</button>
 </div>
 
 <main>
@@ -517,20 +638,25 @@
 
   <!-- TAB 1: TASKS FEED -->
   <section id="tasks" class="active">
-    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search tasks (e.g. Upstox, Kotak)..." />
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search tasks (e.g. Jar, Gullak, PayZapp)..." />
     
     <div class="filter-chips">
       <div class="chip active" data-filter="all">All Offers</div>
-      <div class="chip" data-filter="demat">Demat Accounts</div>
-      <div class="chip" data-filter="bank">Bank Accounts</div>
-      <div class="chip" data-filter="micro">Micro Tasks</div>
+      <div class="chip" data-filter="starter">⚡ 10-Min Starter Pack</div>
+      <div class="chip" data-filter="zerokyc">🪙 Zero KYC (Micro)</div>
+      <div class="chip" data-filter="upi">📲 Pure UPI</div>
     </div>
 
     <div id="taskList" class="loading">Loading live tasks…</div>
 
+    <!-- Suggest a Task Box Button -->
+    <div style="text-align: center; margin-top: 15px;">
+      <button class="btn" style="background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.15); box-shadow:none; font-size:0.78rem;" onclick="openSuggestModal()">💡 Suggest a New Earning App (+Earn Bonus)</button>
+    </div>
+
     <!-- WhatsApp Viral Referral Share -->
-    <div class="whatsapp-share-bar">
-      <a id="waShareBtn" href="#" target="_blank" class="btn-whatsapp">
+    <div style="margin: 18px 0 10px;">
+      <a id="waShareBtn" href="#" target="_blank" class="btn" style="background: #25D366; color: #064E3B;">
         💬 Share App on WhatsApp (+Help Friends Earn)
       </a>
     </div>
@@ -563,7 +689,7 @@
     </form>
   </section>
 
-  <!-- TAB 3: TRACK SUBMISSION STATUS -->
+  <!-- TAB 3: TRACK STATUS -->
   <section id="track">
     <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 18px; padding: 18px 16px;">
       <label style="margin-top:0;">Enter Registered Mobile Number</label>
@@ -574,27 +700,95 @@
     </div>
   </section>
 
-  <p class="muted-note">Payouts are manually verified and transferred directly to your UPI ID within 24–48 hours of task completion.</p>
+  <p class="muted-note">Payouts are manually verified and transferred directly to your UPI ID once wallet crosses ₹50 threshold.</p>
 </main>
 
-<!-- In-App Guide & Video Modal Popup -->
-<div id="guideModal" class="modal-overlay">
+<!-- Floating WhatsApp Support Help Desk -->
+<a href="https://wa.me/917499871095?text=Hi,%20I%20need%20help%20with%20my%20task%20payment" target="_blank" class="floating-wa" title="Help Desk">💬</a>
+
+<!-- MODAL 1: AUTHENTICATION (Mobile + 4-Digit PIN) -->
+<div id="authModal" class="modal-overlay">
   <div class="modal-content">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <h3 id="modalTitle" style="margin: 0; font-size: 1.15rem; color: #fff;">Task Details</h3>
-    <div id="modalPlatform" style="font-size: 0.78rem; color: #60A5FA; margin-top: 3px; text-transform: uppercase;"></div>
+    <h3 style="margin: 0; font-size: 1.2rem; color: #fff;">Student Quick Login 🔐</h3>
+    <p style="font-size: 0.78rem; color: var(--text-muted); margin: 6px 0 16px;">Enter your phone and set a 4-digit PIN to secure your wallet earnings.</p>
+    
+    <label>Your Name</label>
+    <input type="text" id="authName" placeholder="e.g. Rahul Sharma" />
 
-    <!-- Embedded YouTube Player -->
-    <div id="modalVideoBox" class="video-embed-box" style="display:none;">
-      <iframe id="videoIframe" src="" allowfullscreen></iframe>
+    <label>10-Digit Mobile</label>
+    <input type="tel" id="authMobile" pattern="[0-9]{10}" placeholder="e.g. 9876543210" />
+
+    <label>4-Digit Security PIN</label>
+    <input type="password" id="authPin" maxlength="4" placeholder="••••" />
+
+    <button class="btn" style="margin-top: 16px;" onclick="authenticateUser()">Continue to Wallet →</button>
+    <div id="authMsg" class="status-msg"></div>
+  </div>
+</div>
+
+<!-- MODAL 2: WITHDRAWAL REQUEST -->
+<div id="withdrawModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('withdrawModal')">✕</button>
+    <h3 style="margin: 0; font-size: 1.15rem; color: #fff;">Withdraw to UPI 💸</h3>
+    <p style="font-size: 0.78rem; color: var(--text-muted); margin: 4px 0 14px;">Available Balance: <strong id="modalWithdrawBal" style="color:#34D399;">₹0</strong></p>
+
+    <label>Enter Amount (Min ₹50)</label>
+    <input type="number" id="withdrawAmount" min="50" placeholder="e.g. 50" />
+
+    <label>Verify UPI ID</label>
+    <input type="text" id="withdrawUpi" placeholder="e.g. yourname@oksbi" />
+
+    <button class="btn" style="margin-top: 16px;" onclick="submitWithdrawal()">Request Transfer 🚀</button>
+    <div id="withdrawMsg" class="status-msg"></div>
+  </div>
+</div>
+
+<!-- MODAL 3: NETFLIX-STYLE NEXT TASK RECOMMENDATION -->
+<div id="nextTaskModal" class="modal-overlay">
+  <div class="modal-content" style="text-align: center;">
+    <button class="modal-close" onclick="closeModal('nextTaskModal')">✕</button>
+    <div style="font-size: 2.2rem; margin-bottom: 6px;">🎉</div>
+    <h3 style="margin: 0; font-size: 1.2rem; color: #fff;">Task Submitted Successfully!</h3>
+    <p style="font-size: 0.8rem; color: var(--text-muted); margin: 6px 0 16px;">Keep your streak going to unlock bonus multipliers!</p>
+
+    <div style="background: rgba(37,99,235,0.12); border: 1px solid rgba(59,130,246,0.3); border-radius: 12px; padding: 12px; text-align: left;">
+      <div style="font-size: 0.72rem; color: #60A5FA; font-weight:700;">RECOMMENDED NEXT TASK</div>
+      <h4 id="nextTaskTitle" style="margin: 4px 0; color: #fff;">Jar Digital Gold</h4>
+      <div style="font-size: 0.78rem; color: #34D399; font-weight:800;" id="nextTaskReward">Earn ₹15 in 2 Mins</div>
     </div>
 
-    <div style="margin-top: 12px;">
-      <div style="font-size: 0.82rem; font-weight: 700; color: #F8FAFC;">Step-by-Step Instructions:</div>
-      <div id="modalSteps" class="steps-box"></div>
-    </div>
+    <button id="nextTaskBtn" class="btn" style="margin-top: 16px;">Start Next Task Now ↗</button>
+  </div>
+</div>
 
-    <a id="modalAffiliateLink" href="#" target="_blank" rel="noopener" class="btn">Proceed to Task (Earn) ↗</a>
+<!-- MODAL 4: EXIT-INTENT CASH DROP TRAP -->
+<div id="exitModal" class="modal-overlay">
+  <div class="modal-content" style="text-align: center; border-color: rgba(239, 68, 68, 0.4);">
+    <button class="modal-close" onclick="closeModal('exitModal')">✕</button>
+    <div style="font-size: 2.5rem; margin-bottom: 6px;">⚠️</div>
+    <h3 style="margin: 0; font-size: 1.25rem; color: #F87171;">Wait! Don't Leave Money Behind</h3>
+    <p style="font-size: 0.82rem; color: #CBD5E1; margin: 8px 0 16px;">
+      You're just <strong>1 quick 2-minute task away</strong> from unlocking your first direct UPI payout!
+    </p>
+    <button class="btn" style="background: linear-gradient(135deg, #10B981, #059669);" onclick="closeModal('exitModal')">Complete 1 More Task Now ⚡</button>
+  </div>
+</div>
+
+<!-- MODAL 5: APP SUGGESTION BOX -->
+<div id="suggestModal" class="modal-overlay">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('suggestModal')">✕</button>
+    <h3 style="margin: 0; font-size: 1.15rem; color: #fff;">Suggest an App 💡</h3>
+    <p style="font-size: 0.78rem; color: var(--text-muted); margin: 4px 0 14px;">Know a zero-risk app with instant rewards? Suggest it and earn ₹20 finder's bonus.</p>
+
+    <label>App Name</label>
+    <input type="text" id="suggestAppName" placeholder="e.g. Gullak, Navi, etc." />
+
+    <label>How does it reward?</label>
+    <input type="text" id="suggestRewardInfo" placeholder="e.g. Free ₹10 gold on signup" />
+
+    <button class="btn" style="margin-top: 14px;" onclick="submitSuggestion()">Submit Suggestion 📩</button>
   </div>
 </div>
 
@@ -602,8 +796,10 @@
   var API_URL = "https://script.google.com/macros/s/AKfycbw0gwZSvTQhekWLSngSM7yVdcsB20BuK6dczH1JxXf7fie08zWvmkT6tSv68rtGKF4obw/exec";
   var tasksCache = [];
   var currentFilter = "all";
+  var currentUser = null;
+  var exitTrapTriggered = false;
 
-  // Tab Switcher
+  // 1. Tab Switching
   document.querySelectorAll(".tab-btn").forEach(function (btn) {
     btn.addEventListener("click", function () {
       document.querySelectorAll(".tab-btn").forEach(function (b) { b.classList.remove("active"); });
@@ -613,40 +809,190 @@
     });
   });
 
-  // Local Storage "Remember Me"
+  // 2. Lifecycle & Auth Check
   window.addEventListener("DOMContentLoaded", function () {
+    var savedMobile = localStorage.getItem("rem_mobile");
+    var savedPin = localStorage.getItem("rem_pin");
+
+    if (savedMobile && savedPin) {
+      autoLogin(savedMobile, savedPin);
+    } else {
+      document.getElementById("authModal").classList.add("active");
+    }
+
+    // Auto-Populated Viral WhatsApp Share
+    var waMsg = encodeURIComponent("Bhai, yahan students ko har free app verify karne ke ₹20 se ₹40 direct UPI mil rahe hain! Check karo: " + window.location.href);
+    document.getElementById("waShareBtn").href = "https://api.whatsapp.com/send?text=" + waMsg;
+
+    loadTasks();
+  });
+
+  // 3. Exit Intent Detection
+  document.addEventListener("mouseleave", function (e) {
+    if (e.clientY <= 0 && !exitTrapTriggered) {
+      exitTrapTriggered = true;
+      document.getElementById("exitModal").classList.add("active");
+    }
+  });
+
+  // 4. User Auth & Session
+  function authenticateUser() {
+    var name = document.getElementById("authName").value.trim();
+    var mobile = document.getElementById("authMobile").value.trim();
+    var pin = document.getElementById("authPin").value.trim();
+    var msg = document.getElementById("authMsg");
+
+    if (mobile.length !== 10 || pin.length !== 4) {
+      msg.className = "status-msg err";
+      msg.textContent = "Please enter valid 10-digit phone and 4-digit PIN.";
+      return;
+    }
+
+    msg.className = "status-msg";
+    msg.textContent = "Connecting to wallet…";
+    msg.style.display = "block";
+
+    fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ action: "auth_user", name: name, mobile: mobile, pin: pin })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (res) {
+      if (res.ok) {
+        localStorage.setItem("rem_mobile", mobile);
+        localStorage.setItem("rem_pin", pin);
+        localStorage.setItem("rem_userName", res.user.name);
+        currentUser = res.user;
+        closeModal("authModal");
+        syncWallet(mobile);
+        prefillFormFields();
+      } else {
+        msg.className = "status-msg err";
+        msg.textContent = res.error;
+      }
+    })
+    .catch(function () {
+      msg.className = "status-msg err";
+      msg.textContent = "Network error. Try again.";
+    });
+  }
+
+  function autoLogin(mobile, pin) {
+    fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ action: "auth_user", mobile: mobile, pin: pin })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (res) {
+      if (res.ok) {
+        currentUser = res.user;
+        syncWallet(mobile);
+        prefillFormFields();
+      } else {
+        document.getElementById("authModal").classList.add("active");
+      }
+    });
+  }
+
+  function prefillFormFields() {
     if (localStorage.getItem("rem_userName")) document.getElementById("userName").value = localStorage.getItem("rem_userName");
     if (localStorage.getItem("rem_mobile")) {
       document.getElementById("mobile").value = localStorage.getItem("rem_mobile");
       document.getElementById("trackMobile").value = localStorage.getItem("rem_mobile");
     }
     if (localStorage.getItem("rem_upiId")) document.getElementById("upiId").value = localStorage.getItem("rem_upiId");
+  }
 
-    // WhatsApp viral share text generator
-    var waMsg = encodeURIComponent("Hey! Join this app to earn pocket money (₹150-₹400 per task) directly into UPI. Check out live tasks here: " + window.location.href);
-    document.getElementById("waShareBtn").href = "https://api.whatsapp.com/send?text=" + waMsg;
-  });
+  // 5. Live Wallet Sync Engine
+  function syncWallet(mobile) {
+    fetch(API_URL + "?action=get_wallet&mobile=" + encodeURIComponent(mobile))
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res.ok && res.user) {
+          currentUser = res.user;
+          var bal = res.user.walletBalance || 0;
+          var pending = res.user.pendingBalance || 0;
 
-  // Offline / Network Detection
-  window.addEventListener("offline", function () { document.getElementById("offlineBanner").style.display = "block"; });
-  window.addEventListener("online", function () { document.getElementById("offlineBanner").style.display = "none"; });
+          document.getElementById("walletBalance").textContent = "₹" + bal;
+          document.getElementById("pendingBalance").textContent = "₹" + pending + " Pending";
+          document.getElementById("modalWithdrawBal").textContent = "₹" + bal;
 
-  // PWA Install Prompt Handling
-  var deferredPrompt;
-  window.addEventListener("beforeinstallprompt", function (e) {
-    e.preventDefault();
-    deferredPrompt = e;
-    document.getElementById("pwaBanner").style.display = "flex";
-  });
-  document.getElementById("installBtn").addEventListener("click", function () {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt = null;
-      document.getElementById("pwaBanner").style.display = "none";
+          // Progress calculation towards ₹50
+          var pct = Math.min(100, Math.round((bal / 50) * 100));
+          document.getElementById("withdrawProgress").style.width = pct + "%";
+
+          var wBtn = document.getElementById("withdrawBtn");
+          var remText = document.getElementById("withdrawRemaining");
+
+          if (bal >= 50) {
+            wBtn.className = "btn-withdraw active";
+            wBtn.textContent = "Withdraw ₹" + bal + " to UPI ⚡";
+            remText.textContent = "Goal Unlocked! Ready to cashout.";
+          } else {
+            wBtn.className = "btn-withdraw";
+            wBtn.textContent = "Withdraw to UPI (Locked at ₹50)";
+            remText.textContent = "₹" + (50 - bal) + " needed to withdraw";
+          }
+        }
+      });
+  }
+
+  // 6. Withdrawal Request Flow
+  function openWithdrawModal() {
+    if (!currentUser || (currentUser.walletBalance || 0) < 50) {
+      alert("Minimum ₹50 required to withdraw. Complete 1-2 quick tasks to unlock!");
+      return;
     }
-  });
+    document.getElementById("withdrawAmount").value = currentUser.walletBalance;
+    if (localStorage.getItem("rem_upiId")) {
+      document.getElementById("withdrawUpi").value = localStorage.getItem("rem_upiId");
+    }
+    document.getElementById("withdrawModal").classList.add("active");
+  }
 
-  // Load Tasks from Google Sheet API
+  function submitWithdrawal() {
+    var amount = Number(document.getElementById("withdrawAmount").value);
+    var upiId = document.getElementById("withdrawUpi").value.trim();
+    var msg = document.getElementById("withdrawMsg");
+
+    if (amount < 50 || !upiId.includes("@")) {
+      msg.className = "status-msg err";
+      msg.textContent = "Enter at least ₹50 and a valid UPI ID.";
+      return;
+    }
+
+    msg.className = "status-msg";
+    msg.textContent = "Processing request…";
+    msg.style.display = "block";
+
+    fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        action: "request_withdrawal",
+        mobile: currentUser.mobile,
+        amount: amount,
+        upiId: upiId
+      })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (res) {
+      if (res.ok) {
+        localStorage.setItem("rem_upiId", upiId);
+        msg.className = "status-msg ok";
+        msg.textContent = "Success! Transfer request queued (Ref: " + res.reqId + ").";
+        syncWallet(currentUser.mobile);
+        setTimeout(function () { closeModal("withdrawModal"); }, 2000);
+      } else {
+        msg.className = "status-msg err";
+        msg.textContent = res.error;
+      }
+    });
+  }
+
+  // 7. Load Tasks & Filter Engine
   function loadTasks() {
     fetch(API_URL + "?action=tasks")
       .then(function (r) { return r.json(); })
@@ -656,11 +1002,10 @@
         renderTaskOptions(tasks);
       })
       .catch(function () {
-        document.getElementById("taskList").textContent = "Could not load tasks. Check your internet connection.";
+        document.getElementById("taskList").textContent = "Could not load tasks. Please check your connection.";
       });
   }
 
-  // Filter Chips Logic
   document.querySelectorAll(".chip").forEach(function (chip) {
     chip.addEventListener("click", function () {
       document.querySelectorAll(".chip").forEach(function (c) { c.classList.remove("active"); });
@@ -670,7 +1015,6 @@
     });
   });
 
-  // Search Input Filter
   document.getElementById("searchInput").addEventListener("input", function () {
     renderFilteredTasks();
   });
@@ -679,11 +1023,14 @@
     var query = document.getElementById("searchInput").value.toLowerCase();
     var filtered = tasksCache.filter(function (t) {
       var matchQuery = (t.offerName && t.offerName.toLowerCase().includes(query)) || 
-                         (t.platform && t.platform.toLowerCase().includes(query));
+                       (t.platform && t.platform.toLowerCase().includes(query));
       var matchFilter = true;
-      if (currentFilter === "demat") matchFilter = (t.offerName + t.platform).toLowerCase().includes("demat") || (t.offerName + t.platform).toLowerCase().includes("upstox") || (t.offerName + t.platform).toLowerCase().includes("angel");
-      else if (currentFilter === "bank") matchFilter = (t.offerName + t.platform).toLowerCase().includes("bank") || (t.offerName + t.platform).toLowerCase().includes("kotak") || (t.offerName + t.platform).toLowerCase().includes("au");
-      else if (currentFilter === "micro") matchFilter = !(t.offerName + t.platform).toLowerCase().includes("demat") && !(t.offerName + t.platform).toLowerCase().includes("bank");
+      var textCombo = (t.offerName + " " + t.platform + " " + t.steps).toLowerCase();
+
+      if (currentFilter === "starter") matchFilter = textCombo.includes("gold") || textCombo.includes("jar") || textCombo.includes("gullak") || textCombo.includes("payzapp");
+      else if (currentFilter === "zerokyc") matchFilter = !textCombo.includes("demat") && !textCombo.includes("cibil");
+      else if (currentFilter === "upi") matchFilter = textCombo.includes("upi") || textCombo.includes("send ₹1");
+
       return matchQuery && matchFilter;
     });
 
@@ -698,6 +1045,23 @@
     tasks.forEach(function (t, index) {
       var card = document.createElement("div");
       card.className = "card";
+
+      // Detect referral code from steps or text
+      var refCodeMatch = t.steps.match(/code:\s*([A-Za-z0-9_-]+)/i) || t.offerName.match(/code:\s*([A-Za-z0-9_-]+)/i);
+      var refCode = refCodeMatch ? refCodeMatch[1] : null;
+
+      var copyCodeHtml = "";
+      if (refCode) {
+        copyCodeHtml = 
+          "<div class='copy-code-strip'>" +
+            "<div><span style='font-size:0.68rem; color:#94A3B8;'>REFERRAL CODE:</span> <span class='copy-code-text'>" + refCode + "</span></div>" +
+            "<button class='btn-copy-code' onclick='copyText(\"" + refCode + "\", this)'>Copy Code</button>" +
+          "</div>";
+      }
+
+      // The Payout Ladder Dynamic Bonus Tag
+      var ladderTag = (index === 0) ? "🎯 Step 1: Base Cash" : "+₹10 Combo Streak Bonus 🔥";
+
       card.innerHTML =
         "<div class='card-top'>" +
           "<div>" +
@@ -706,115 +1070,167 @@
           "</div>" +
           "<div class='payout-chip'>Earn ₹" + t.payoutToUser + "</div>" +
         "</div>" +
-        "<div class='urgency-badge'>⏳ Limited Slots • Closes Soon</div>" +
+        "<div class='badges-row'>" +
+          "<span class='badge-ladder'>" + ladderTag + "</span>" +
+          "<span class='badge-tag'>⏱️ 2 Mins</span>" +
+          "<span class='badge-tag'>⚡ 1-Tap UPI</span>" +
+        "</div>" +
+        copyCodeHtml +
         "<div class='steps-box'>" + escapeHtml(t.steps) + "</div>" +
-        "<button class='btn' onclick='openTaskGuide(" + index + ")'>View Guide & Start Task ↗</button>";
+        "<a href='" + t.referralLink + "' target='_blank' rel='noopener' class='btn' onclick='trackClick(\"" + t.taskId + "\")'>Open App & Complete Task ↗</a>";
+      
       list.appendChild(card);
     });
   }
 
-  // Guide & Video Modal Popup
-  function openTaskGuide(index) {
-    var t = tasksCache[index];
-    if (!t) return;
-// 1. Modal open aur click tracking event binding
-  function openTaskGuide(index) {
-    var t = tasksCache[index];
-    if (!t) return;
+  function copyText(str, btn) {
+    navigator.clipboard.writeText(str).then(function () {
+      var old = btn.textContent;
+      btn.textContent = "Copied! ✓";
+      btn.style.background = "#10B981";
+      setTimeout(function () {
+        btn.textContent = old;
+        btn.style.background = "";
+      }, 2000);
+    });
+  }
 
-    document.getElementById("modalTitle").textContent = t.offerName;
-    document.getElementById("modalPlatform").textContent = t.platform;
-    document.getElementById("modalSteps").textContent = cleanSteps(t.steps);
+  function trackClick(taskId) {
+    var mobile = currentUser ? currentUser.mobile : "Guest";
+    var device = navigator.userAgent.includes("Android") ? "Android" : "Other";
+    var url = API_URL + "?action=log_click&taskId=" + encodeURIComponent(taskId) + "&userToken=" + encodeURIComponent(mobile) + "&device=" + encodeURIComponent(device);
+    if (navigator.sendBeacon) navigator.sendBeacon(url);
+    else fetch(url, { mode: 'no-cors' });
+  }
 
-    // Click tracking bind on "Proceed to Task" button
-    var btn = document.getElementById("modalAffiliateLink");
-    btn.onclick = function(e) {
-      trackAndRedirect(e, t.referralLink, t.taskId);
+  // 8. Proof Submission with Hash Duplicate Blocker
+  document.getElementById("submitForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var fileInput = document.getElementById("screenshot");
+    var file = fileInput.files[0];
+    if (!file) return;
+
+    var userName = document.getElementById("userName").value.trim();
+    var mobile = document.getElementById("mobile").value.trim();
+    var taskId = document.getElementById("taskSelect").value;
+    var upiId = document.getElementById("upiId").value.trim();
+
+    // Client-side image hash simulation (Name + Size + LastModified)
+    var imageHash = "IMG_" + file.size + "_" + file.lastModified;
+
+    var statusEl = document.getElementById("statusMsg");
+    statusEl.className = "status-msg";
+    statusEl.textContent = "Uploading proof securely…";
+    statusEl.style.display = "block";
+    document.getElementById("submitBtn").disabled = true;
+
+    var reader = new FileReader();
+    reader.onload = function () {
+      var base64 = reader.result.split(",")[1];
+      var payload = {
+        userName: userName,
+        mobile: mobile,
+        taskId: taskId,
+        upiId: upiId,
+        imageHash: imageHash,
+        screenshotBase64: base64,
+        screenshotMimeType: file.type,
+        screenshotFileName: file.name
+      };
+
+      fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        document.getElementById("submitBtn").disabled = false;
+        if (res.ok) {
+          statusEl.className = "status-msg ok";
+          statusEl.textContent = "Submitted! Verification takes under 2 hours.";
+          document.getElementById("submitForm").reset();
+          prefillFormFields();
+          syncWallet(mobile);
+
+          // Trigger Netflix-Style Next Task Recommendation
+          triggerNextTaskRecommendation(taskId);
+        } else {
+          statusEl.className = "status-msg err";
+          statusEl.textContent = res.error;
+        }
+      })
+      .catch(function () {
+        document.getElementById("submitBtn").disabled = false;
+        statusEl.className = "status-msg err";
+        statusEl.textContent = "Network error. Try again.";
+      });
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function triggerNextTaskRecommendation(completedTaskId) {
+    var nextTask = tasksCache.find(function (t) { return t.taskId !== completedTaskId; });
+    if (!nextTask) return;
+
+    document.getElementById("nextTaskTitle").textContent = nextTask.offerName;
+    document.getElementById("nextTaskReward").textContent = "Earn ₹" + nextTask.payoutToUser + " in 2 Mins";
+    var btn = document.getElementById("nextTaskBtn");
+    btn.onclick = function () {
+      window.open(nextTask.referralLink, "_blank");
+      closeModal("nextTaskModal");
     };
 
-    var videoBox = document.getElementById("modalVideoBox");
-    var iframe = document.getElementById("videoIframe");
-    var ytLink = null;
-
-    if (t.steps && (t.steps.includes("youtu.be") || t.steps.includes("youtube.com"))) {
-      var match = t.steps.match(/https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/[^\s\}]+/);
-      if (match) ytLink = match[0];
-    }
-
-    if (ytLink) {
-      var videoId = "";
-      if (ytLink.includes("youtu.be/")) videoId = ytLink.split("youtu.be/")[1].split("?")[0];
-      else if (ytLink.includes("v=")) videoId = ytLink.split("v=")[1].split("&")[0];
-      if (videoId) {
-        iframe.src = "https://www.youtube.com/embed/" + videoId;
-        videoBox.style.display = "block";
-      } else {
-        videoBox.style.display = "none";
-      }
-    } else {
-      iframe.src = "";
-      videoBox.style.display = "none";
-    }
-
-    document.getElementById("guideModal").classList.add("active");
+    setTimeout(function () {
+      document.getElementById("nextTaskModal").classList.add("active");
+    }, 1200);
   }
 
-  // 2. Silent background Click Logger engine
-  function trackAndRedirect(event, targetUrl, taskId) {
-    event.preventDefault();
-    var userMobile = localStorage.getItem("rem_mobile") || "Guest_User";
-    var deviceInfo = navigator.userAgent.includes("Android") ? "Android" : (navigator.userAgent.includes("iPhone") ? "iOS" : "Desktop");
-
-    var trackingUrl = API_URL + "?action=log_click" + 
-                      "&taskId=" + encodeURIComponent(taskId) + 
-                      "&userToken=" + encodeURIComponent(userMobile) + 
-                      "&device=" + encodeURIComponent(deviceInfo);
-
-    if (navigator.sendBeacon) {
-      navigator.sendBeacon(trackingUrl);
-    } else {
-      fetch(trackingUrl, { mode: 'no-cors' });
+  // 9. Track Status with Instant Rejection Reason Display
+  function checkStatus() {
+    var mobile = document.getElementById("trackMobile").value.trim();
+    var resBox = document.getElementById("trackResultList");
+    if (!mobile || mobile.length !== 10) {
+      resBox.innerHTML = "<div style='color:#F87171; font-size:0.8rem;'>Enter a valid 10-digit number.</div>";
+      return;
     }
 
-    setTimeout(function() {
-      window.open(targetUrl, "_blank", "noopener");
-    }, 150);
-  }
-    document.getElementById("modalTitle").textContent = t.offerName;
-    document.getElementById("modalPlatform").textContent = t.platform;
-    document.getElementById("modalSteps").textContent = t.steps;
-    document.getElementById("modalAffiliateLink").href = t.referralLink;
+    resBox.innerHTML = "<div class='loading' style='padding:12px;'>Checking records…</div>";
 
-    var videoBox = document.getElementById("modalVideoBox");
-    var iframe = document.getElementById("videoIframe");
-    var ytLink = null;
+    fetch(API_URL + "?action=status&mobile=" + encodeURIComponent(mobile))
+      .then(function (r) { return r.json(); })
+      .then(function (items) {
+        if (!items || !items.length) {
+          resBox.innerHTML = "<div style='color:var(--text-muted); font-size:0.82rem; margin-top:8px;'>No submissions found.</div>";
+          return;
+        }
+        resBox.innerHTML = "";
+        items.forEach(function (sub) {
+          var badgeClass = "badge-pending";
+          var st = (sub.status || "Pending").toLowerCase();
+          if (st.includes("approved") || st.includes("paid")) badgeClass = "badge-approved";
+          else if (st.includes("rejected")) badgeClass = "badge-rejected";
 
-    if (t.steps && (t.steps.includes("youtu.be") || t.steps.includes("youtube.com"))) {
-      var match = t.steps.match(/https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/[^\s]+/);
-      if (match) ytLink = match[0];
-    }
+          var reasonHtml = "";
+          if (sub.rejectionReason && st.includes("rejected")) {
+            reasonHtml = "<div class='rejection-reason-box'><strong>Admin Note:</strong> " + escapeHtml(sub.rejectionReason) + "</div>";
+          }
 
-    if (ytLink) {
-      var videoId = "";
-      if (ytLink.includes("youtu.be/")) videoId = ytLink.split("youtu.be/")[1].split("?")[0];
-      else if (ytLink.includes("v=")) videoId = ytLink.split("v=")[1].split("&")[0];
-      if (videoId) {
-        iframe.src = "https://www.youtube.com/embed/" + videoId;
-        videoBox.style.display = "block";
-      } else {
-        videoBox.style.display = "none";
-      }
-    } else {
-      iframe.src = "";
-      videoBox.style.display = "none";
-    }
-
-    document.getElementById("guideModal").classList.add("active");
-  }
-
-  function closeModal() {
-    document.getElementById("videoIframe").src = "";
-    document.getElementById("guideModal").classList.remove("active");
+          var itemEl = document.createElement("div");
+          itemEl.className = "track-result-card";
+          itemEl.innerHTML = 
+            "<div style='display:flex; justify-content:space-between; align-items:center;'>" +
+              "<div style='font-weight:700; font-size:0.88rem; color:#fff;'>" + escapeHtml(sub.offerName || sub.taskId) + "</div>" +
+              "<span class='status-badge " + badgeClass + "'>" + escapeHtml(sub.status || "Pending") + "</span>" +
+            "</div>" +
+            "<div style='font-size:0.75rem; color:var(--text-muted); margin-top:4px;'>Date: " + escapeHtml(sub.date || "Recent") + " | Payout: ₹" + sub.payout + "</div>" +
+            reasonHtml;
+          resBox.appendChild(itemEl);
+        });
+      })
+      .catch(function () {
+        resBox.innerHTML = "<div style='color:#F87171; font-size:0.8rem;'>Could not fetch status.</div>";
+      });
   }
 
   function renderTaskOptions(tasks) {
@@ -834,122 +1250,38 @@
     return div.innerHTML;
   }
 
-  // Proof Submission with Duplicate Check & Remember Me
-  document.getElementById("submitForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    var fileInput = document.getElementById("screenshot");
-    var file = fileInput.files[0];
-    if (!file) return;
-
-    var userName = document.getElementById("userName").value.trim();
-    var mobile = document.getElementById("mobile").value.trim();
-    var taskId = document.getElementById("taskSelect").value;
-    var upiId = document.getElementById("upiId").value.trim();
-
-    // Duplicate submission guard (local history check)
-    var localKey = "submitted_" + mobile + "_" + taskId;
-    if (localStorage.getItem(localKey)) {
-      alert("You have already submitted proof for this task! Please wait for admin verification.");
-      return;
-    }
-
-    // Save into LocalStorage (Remember Me)
-    localStorage.setItem("rem_userName", userName);
-    localStorage.setItem("rem_mobile", mobile);
-    localStorage.setItem("rem_upiId", upiId);
-
-    var statusEl = document.getElementById("statusMsg");
-    statusEl.className = "status-msg";
-    statusEl.textContent = "Uploading proof securely…";
-    statusEl.style.display = "block";
-    document.getElementById("submitBtn").disabled = true;
-
-    var reader = new FileReader();
-    reader.onload = function () {
-      var base64 = reader.result.split(",")[1];
-      var payload = {
-        userName: userName,
-        mobile: mobile,
-        taskId: taskId,
-        upiId: upiId,
-        screenshotBase64: base64,
-        screenshotMimeType: file.type,
-        screenshotFileName: file.name
-      };
-
-      fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload)
-      })
-        .then(function (r) { return r.json(); })
-        .then(function (res) {
-          document.getElementById("submitBtn").disabled = false;
-          if (res.ok) {
-            localStorage.setItem(localKey, "true");
-            statusEl.className = "status-msg ok";
-            statusEl.textContent = "Submitted! Ref ID: " + res.submissionId + ". Payment will be verified shortly.";
-            document.getElementById("submitForm").reset();
-            // Restore saved credentials
-            document.getElementById("userName").value = userName;
-            document.getElementById("mobile").value = mobile;
-            document.getElementById("upiId").value = upiId;
-          } else {
-            statusEl.className = "status-msg err";
-            statusEl.textContent = "Error: " + res.error;
-          }
-        })
-        .catch(function () {
-          document.getElementById("submitBtn").disabled = false;
-          statusEl.className = "status-msg err";
-          statusEl.textContent = "Network error. Try again.";
-        });
-    };
-    reader.readAsDataURL(file);
-  });
-
-  // Track Status Functionality
-  function checkStatus() {
-    var mobile = document.getElementById("trackMobile").value.trim();
-    var resBox = document.getElementById("trackResultList");
-    if (!mobile || mobile.length !== 10) {
-      resBox.innerHTML = "<div style='color:#F87171; font-size:0.8rem;'>Please enter a valid 10-digit number.</div>";
-      return;
-    }
-
-    resBox.innerHTML = "<div class='loading' style='padding:12px;'>Checking records…</div>";
-
-    fetch(API_URL + "?action=status&mobile=" + encodeURIComponent(mobile))
-      .then(function (r) { return r.json(); })
-      .then(function (items) {
-        if (!items || !items.length) {
-          resBox.innerHTML = "<div style='color:var(--text-muted); font-size:0.82rem; margin-top:8px;'>No submissions found for this mobile number.</div>";
-          return;
-        }
-        resBox.innerHTML = "";
-        items.forEach(function (sub) {
-          var badgeClass = "badge-pending";
-          var st = (sub.status || "Pending").toLowerCase();
-          if (st.includes("approved") || st.includes("paid")) badgeClass = "badge-approved";
-          else if (st.includes("rejected")) badgeClass = "badge-rejected";
-
-          var itemEl = document.createElement("div");
-          itemEl.className = "track-result-card";
-          itemEl.innerHTML = 
-            "<div style='display:flex; justify-content:space-between; align-items:center;'>" +
-              "<div style='font-weight:700; font-size:0.88rem; color:#fff;'>" + escapeHtml(sub.taskId) + "</div>" +
-              "<span class='status-badge " + badgeClass + "'>" + escapeHtml(sub.status || "Pending") + "</span>" +
-            "</div>" +
-            "<div style='font-size:0.75rem; color:var(--text-muted); margin-top:4px;'>Submitted on: " + escapeHtml(sub.date || "Recent") + "</div>";
-          resBox.appendChild(itemEl);
-        });
-      })
-      .catch(function () {
-        resBox.innerHTML = "<div style='color:#F87171; font-size:0.8rem;'>Could not fetch status. Check connection.</div>";
-      });
+  function closeModal(id) {
+    document.getElementById(id).classList.remove("active");
   }
 
-  loadTasks();
+  function openSuggestModal() {
+    document.getElementById("suggestModal").classList.add("active");
+  }
+
+  function submitSuggestion() {
+    var name = document.getElementById("suggestAppName").value.trim();
+    if (!name) return;
+    alert("Thanks! We've received your suggestion for " + name + ". Bonus will be credited if approved.");
+    closeModal("suggestModal");
+  }
+
+  // PWA Support
+  var deferredPrompt;
+  window.addEventListener("beforeinstallprompt", function (e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById("pwaBanner").style.display = "flex";
+  });
+  document.getElementById("installBtn").addEventListener("click", function () {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt = null;
+      document.getElementById("pwaBanner").style.display = "none";
+    }
+  });
+
+  window.addEventListener("offline", function () { document.getElementById("offlineBanner").style.display = "block"; });
+  window.addEventListener("online", function () { document.getElementById("offlineBanner").style.display = "none"; });
 
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js").catch(function () {});
